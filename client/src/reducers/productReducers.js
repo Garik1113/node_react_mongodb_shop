@@ -4,7 +4,8 @@ import {
   ADD_PRODUCT_PRICE,
   ADD_PRODUCT_QUANTITY,
   ADD_PRODUCT_GENDER,
-  ADD_PRODUCT,
+  ADD_PRODUCT_SUCCESS,
+  ADD_PRODUCT_IMAGE_PATHS,
 } from "../types";
 
 const initialState = {
@@ -13,7 +14,9 @@ const initialState = {
   category: "",
   gender: "",
   quantity: "",
+  imagePaths: [],
   views: 0,
+  success: "",
 };
 
 export const addedProduct = (state = initialState, action) => {
@@ -28,8 +31,10 @@ export const addedProduct = (state = initialState, action) => {
       return { ...state, quantity: action.payload };
     case ADD_PRODUCT_GENDER:
       return { ...state, gender: action.payload };
-    case ADD_PRODUCT:
-      return state;
+    case ADD_PRODUCT_IMAGE_PATHS:
+      return { ...state, imagePaths: action.payload };
+    case ADD_PRODUCT_SUCCESS:
+      return { ...state, success: action.payload };
     default:
       return state;
   }

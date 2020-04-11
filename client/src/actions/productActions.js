@@ -5,8 +5,10 @@ import {
   ADD_PRODUCT_PRICE,
   ADD_PRODUCT_QUANTITY,
   ADD_PRODUCT_GENDER,
-  ADD_PRODUCT,
+  ADD_PRODUCT_SUCCESS,
+  ADD_PRODUCT_IMAGE_PATHS,
 } from "../types";
+import { returnProductErrors } from "./errorActions";
 
 //Add new product action
 export const addProductName = (name) => (dispatch, getState) => {
@@ -47,12 +49,25 @@ export const addProductImages = (images) => (dispatch, getState) => {
   for (let key in images) {
     formData.append("images", images[key]);
   }
-  axios.post("/products/addNewImage", formData).then((e) => console.log(e));
+  axios.post("/products/addNewImage", formData).then((res) => {
+    if (res.status === 200) {
+      return dispatch({
+        type: ADD_PRODUCT_IMAGE_PATHS,
+        payload: res.data,
+      });
+    }
+  });
 };
 
-export const addProduct = (product) => (dispatch, getState) => {
-  return dispatch({
-    type: ADD_PRODUCT,
-    payload: product,
+export const addProduct = () => (dispatch, getState) => {
+  axios.post("/products/addNewProduct", getState().addedProduct).then((res) => {
+    if (res.status === 200) {
+      return dispatch({
+        type: ADD_PRODUCT_SUCCESS,
+        payload: res.data.success,
+      });
+    } else {
+      return dispatch(returnProductErrors(res.data.errors));
+    }
   });
 };
