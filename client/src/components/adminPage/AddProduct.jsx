@@ -1,5 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 import {
   addProductName,
   addProductCategory,
@@ -8,7 +8,7 @@ import {
   addProductQuantity,
   addProductImages,
   addProduct,
-} from "../../actions/productActions";
+} from '../../actions/productActions';
 
 class AddProduct extends React.Component {
   render() {
@@ -21,11 +21,15 @@ class AddProduct extends React.Component {
       addProductQuantity,
       addProductImages,
       addProduct,
+      errors,
+      productSuccess,
     } = this.props;
+
     return (
       <div className="col-4 offset-4 d-flex justify-content-center">
         <form className="addProduct-form">
           <h2 className="text-center">Add Product</h2>
+          <h4 className="alert-success">{productSuccess}</h4>
           <input
             type="text"
             className="addProduct-input"
@@ -33,6 +37,7 @@ class AddProduct extends React.Component {
             value={name}
             onChange={(e) => addProductName(e.target.value)}
           />
+          <small className="error-msg">{errors.name && errors.name.msg}</small>
           <input
             type="text"
             className="addProduct-input"
@@ -40,6 +45,9 @@ class AddProduct extends React.Component {
             value={category}
             onChange={(e) => addProductCategory(e.target.value)}
           />
+          <small className="error-msg">
+            {errors.category && errors.category.msg}
+          </small>
           <input
             type="text"
             className="addProduct-input"
@@ -47,6 +55,9 @@ class AddProduct extends React.Component {
             value={price}
             onChange={(e) => addProductPrice(e.target.value)}
           />
+          <small className="error-msg">
+            {errors.price && errors.price.msg}
+          </small>
           <input
             type="text"
             className="addProduct-input"
@@ -54,6 +65,9 @@ class AddProduct extends React.Component {
             value={quantity}
             onChange={(e) => addProductQuantity(e.target.value)}
           />
+          <small className="error-msg">
+            {errors.quantity && errors.quantity.msg}
+          </small>
           <input
             type="text"
             className="addProduct-input"
@@ -61,14 +75,23 @@ class AddProduct extends React.Component {
             value={gender}
             onChange={(e) => addProductGender(e.target.value)}
           />
-
+          <small className="error-msg">
+            {errors.gender && errors.gender.msg}
+          </small>
           <input
             type="file"
             className="addProduct-input"
             placeholder="Image"
-            onChange={(e) => addProductImages(e.target.files)}
+            key={0}
+            onChange={(e) => {
+              addProductImages(e.target.files);
+              e.target.value = null;
+            }}
             multiple
           />
+          <small className="error-msg">
+            {errors.imagePaths && errors.imagePaths.msg}
+          </small>
           <button
             type="button"
             className="addProduct-btn"
@@ -84,6 +107,8 @@ class AddProduct extends React.Component {
 
 const mapStateToProps = (state) => ({
   addedProduct: state.addedProduct,
+  errors: state.errors.addedProductErrors,
+  productSuccess: state.errors.productSuccess,
 });
 
 const mapDispatchToProps = {

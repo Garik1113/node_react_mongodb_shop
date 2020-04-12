@@ -1,8 +1,13 @@
-import { ADD_PRODUCT_FAILED, CLEAR_PRODUCT_ERRORS } from "../types";
+import {
+  ADD_PRODUCT_FAILED,
+  CLEAR_PRODUCT_ERRORS,
+  ADD_PRODUCT_SUCCESS,
+} from '../types';
 
 const initialState = {
   addedProductErrors: {},
   userErrors: {},
+  productSuccess: '',
 };
 
 export const errors = (state = initialState, action) => {
@@ -11,6 +16,8 @@ export const errors = (state = initialState, action) => {
       return { ...state, addedProductErrors: action.payload };
     case CLEAR_PRODUCT_ERRORS:
       return { ...state, addedProductErrors: {} };
+    case ADD_PRODUCT_SUCCESS:
+      return { ...state, productSuccess: action.payload };
     default:
       return state;
   }

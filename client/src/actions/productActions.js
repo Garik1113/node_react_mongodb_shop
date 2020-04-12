@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   ADD_PRODUCT_NAME,
   ADD_PRODUCT_CATEGORY,
@@ -7,8 +7,8 @@ import {
   ADD_PRODUCT_GENDER,
   ADD_PRODUCT_SUCCESS,
   ADD_PRODUCT_IMAGE_PATHS,
-} from "../types";
-import { returnProductErrors } from "./errorActions";
+} from '../types';
+import { returnProductErrors, clearProductErrors } from './errorActions';
 
 //Add new product action
 export const addProductName = (name) => (dispatch, getState) => {
@@ -47,9 +47,10 @@ export const addProductGender = (gender) => (dispatch, getState) => {
 export const addProductImages = (images) => (dispatch, getState) => {
   const formData = new FormData();
   for (let key in images) {
-    formData.append("images", images[key]);
+    formData.append('images', images[key]);
+    delete images[key];
   }
-  axios.post("/products/addNewImage", formData).then((res) => {
+  axios.post('/products/addNewImage', formData).then((res) => {
     if (res.status === 200) {
       return dispatch({
         type: ADD_PRODUCT_IMAGE_PATHS,
@@ -60,14 +61,27 @@ export const addProductImages = (images) => (dispatch, getState) => {
 };
 
 export const addProduct = () => (dispatch, getState) => {
-  axios.post("/products/addNewProduct", getState().addedProduct).then((res) => {
-    if (res.status === 200) {
-      return dispatch({
-        type: ADD_PRODUCT_SUCCESS,
-        payload: res.data.success,
-      });
-    } else {
-      return dispatch(returnProductErrors(res.data.errors));
-    }
-  });
+  const product = {
+    name: getState().addedProduct.name,
+    price: getState().addedProduct.price,
+    category: getState().addedProduct.category,
+    gender: getState().addedProduct.gender,
+    imagePaths: getState().addedProduct.imagePaths,
+    quantity: getState().addedProduct.quantity,
+  };
+
+  axios
+    .post('/products/addNewProduct', product)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch(clearProductErrors());
+        return dispatch({
+          type: ADD_PRODUCT_SUCCESS,
+          payload: res.data,
+        });
+      } else {
+        return dispatch(returnProductErrors(res.data));
+      }
+    })
+    .catch((e) => console.log(e));
 };

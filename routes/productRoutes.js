@@ -1,15 +1,12 @@
-const express = require("express");
+const express = require('express');
 const ProductRouter = express.Router();
-const ProductController = require("../controllers/productController");
-const { check, validationResult } = require("express-validator");
-const validate = () => {
-  return [check("name").notEmpty().withMessage("Name is required")];
-};
+const ProductController = require('../controllers/productController');
+const proValidate = require('../validations/productValidation');
 
-ProductRouter.use("/addNewImage", ProductController.addNewImages);
+ProductRouter.use('/addNewImage', ProductController.addNewImages);
 ProductRouter.post(
-  "/addNewProduct",
-  validate(),
+  '/addNewProduct',
+  proValidate(),
   ProductController.addNewProduct
 );
 

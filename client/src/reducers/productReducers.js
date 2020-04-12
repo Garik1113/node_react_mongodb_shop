@@ -6,17 +6,15 @@ import {
   ADD_PRODUCT_GENDER,
   ADD_PRODUCT_SUCCESS,
   ADD_PRODUCT_IMAGE_PATHS,
-} from "../types";
+} from '../types';
 
 const initialState = {
-  name: "",
-  price: "",
-  category: "",
-  gender: "",
-  quantity: "",
-  imagePaths: [],
-  views: 0,
-  success: "",
+  name: '',
+  price: '',
+  category: '',
+  gender: '',
+  quantity: '',
+  imagePaths: '',
 };
 
 export const addedProduct = (state = initialState, action) => {
@@ -34,7 +32,7 @@ export const addedProduct = (state = initialState, action) => {
     case ADD_PRODUCT_IMAGE_PATHS:
       return { ...state, imagePaths: action.payload };
     case ADD_PRODUCT_SUCCESS:
-      return { ...state, success: action.payload };
+      return initialState;
     default:
       return state;
   }

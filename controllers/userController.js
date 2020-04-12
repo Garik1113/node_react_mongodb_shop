@@ -1,8 +1,10 @@
-const User = require("../models/user");
+const User = require('../models/user');
+const { validationResult } = require('express-validator');
 
 class UserController {
   async getUser(req, res) {
-    res.send("User");
+    const error = validationResult(req);
+    console.log(error);
   }
 }
 
