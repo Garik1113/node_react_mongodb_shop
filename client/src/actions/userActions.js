@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   ADD_SIGNUP_NAME,
   ADD_SIGNUP_SURNAME,
@@ -6,7 +6,8 @@ import {
   ADD_SIGNUP_EMAIL,
   ADD_SIGNUP_PASSWORD,
   ADD_SIGNUP_CONFIRM_PASSWORM,
-} from '../types';
+} from "../types";
+import { returnSignupErrors } from "./errorActions";
 
 //Signup new user
 export const signupUserName = (name) => (dispatch) => {
@@ -52,6 +53,10 @@ export const signupUserConfirmPassword = (confirmPassword) => (dispatch) => {
 };
 
 export const signupNewUser = () => (dispatch, getState) => {
-  axios.post('/users/create', getState().signupUser);
-  console.log(getState().signupUser);
+  axios.post("/users/create", getState().signupUser).then((res) => {
+    if (res.data.errors) {
+      dispatch(returnSignupErrors(res.data.errors));
+    }
+    console.log(res.data.errors);
+  });
 };

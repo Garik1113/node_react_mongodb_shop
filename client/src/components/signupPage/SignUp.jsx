@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import {
   signupUserName,
   signupUserSurName,
@@ -8,7 +8,7 @@ import {
   signupUserPassword,
   signupUserConfirmPassword,
   signupNewUser,
-} from '../../actions/userActions';
+} from "../../actions/userActions";
 class SignUp extends React.Component {
   render() {
     const {
@@ -99,6 +99,7 @@ class SignUp extends React.Component {
 }
 const mapStateToProps = (state) => ({
   user: state.signupUser,
+  errors: state,
 });
 const mapDispatchToProps = {
   signupUserName,

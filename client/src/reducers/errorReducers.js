@@ -2,12 +2,13 @@ import {
   ADD_PRODUCT_FAILED,
   CLEAR_PRODUCT_ERRORS,
   ADD_PRODUCT_SUCCESS,
-} from '../types';
+  SIGNUP_USER_FAILED,
+} from "../types";
 
 const initialState = {
   addedProductErrors: {},
   userErrors: {},
-  productSuccess: '',
+  productSuccess: "",
 };
 
 export const errors = (state = initialState, action) => {
@@ -18,6 +19,8 @@ export const errors = (state = initialState, action) => {
       return { ...state, addedProductErrors: {} };
     case ADD_PRODUCT_SUCCESS:
       return { ...state, productSuccess: action.payload };
+    case SIGNUP_USER_FAILED:
+      return { ...state, userErrors: action.payload };
     default:
       return state;
   }
