@@ -3,12 +3,17 @@ import {
   CLEAR_PRODUCT_ERRORS,
   ADD_PRODUCT_SUCCESS,
   SIGNUP_USER_FAILED,
-} from "../types";
+  SIGNUP_SUCCESS,
+  USER_LOGIN_SUCCESS,
+  USER_LOGIN_FAILED,
+} from '../types';
 
 const initialState = {
   addedProductErrors: {},
   userErrors: {},
-  productSuccess: "",
+  signupSuccess: '',
+  loginSuccess: '',
+  productSuccess: '',
 };
 
 export const errors = (state = initialState, action) => {
@@ -21,6 +26,12 @@ export const errors = (state = initialState, action) => {
       return { ...state, productSuccess: action.payload };
     case SIGNUP_USER_FAILED:
       return { ...state, userErrors: action.payload };
+    case SIGNUP_SUCCESS:
+      return { ...state, signupSuccess: action.payload };
+    case USER_LOGIN_FAILED:
+      return { ...state, userErrors: action.payload };
+    case USER_LOGIN_SUCCESS:
+      return { ...state, loginSuccess: action.payload };
     default:
       return state;
   }

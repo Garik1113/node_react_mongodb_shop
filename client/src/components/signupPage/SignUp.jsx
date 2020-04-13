@@ -1,5 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 import {
   signupUserName,
   signupUserSurName,
@@ -8,7 +8,7 @@ import {
   signupUserPassword,
   signupUserConfirmPassword,
   signupNewUser,
-} from "../../actions/userActions";
+} from '../../actions/userActions';
 class SignUp extends React.Component {
   render() {
     const {
@@ -27,6 +27,8 @@ class SignUp extends React.Component {
       signupUserPassword,
       signupUserConfirmPassword,
       signupNewUser,
+      errors,
+      success,
     } = this.props;
     return (
       <div className="container-fluid signup-wrapper vh-100">
@@ -44,6 +46,9 @@ class SignUp extends React.Component {
                 value={name}
                 onChange={(e) => signupUserName(e.target.value)}
               />
+              <small className="error-msg">
+                {errors.name && errors.name.msg}
+              </small>
               <input
                 type="text"
                 className="signup-input"
@@ -51,6 +56,9 @@ class SignUp extends React.Component {
                 value={surname}
                 onChange={(e) => signupUserSurName(e.target.value)}
               />
+              <small className="error-msg">
+                {errors.surname && errors.surname.msg}
+              </small>
               <input
                 type="text"
                 className="signup-input"
@@ -58,6 +66,9 @@ class SignUp extends React.Component {
                 value={age}
                 onChange={(e) => signupUserAge(e.target.value)}
               />
+              <small className="error-msg">
+                {errors.age && errors.age.msg}
+              </small>
               <input
                 type="text"
                 className="signup-input"
@@ -65,6 +76,9 @@ class SignUp extends React.Component {
                 value={email}
                 onChange={(e) => signupUserEmail(e.target.value)}
               />
+              <small className="error-msg">
+                {errors.email && errors.email.msg}
+              </small>
               <input
                 type="text"
                 className="signup-input"
@@ -72,6 +86,9 @@ class SignUp extends React.Component {
                 value={password}
                 onChange={(e) => signupUserPassword(e.target.value)}
               />
+              <small className="error-msg">
+                {errors.password && errors.password.msg}
+              </small>
               <input
                 type="text"
                 className="signup-input"
@@ -79,13 +96,18 @@ class SignUp extends React.Component {
                 value={confirmPassword}
                 onChange={(e) => signupUserConfirmPassword(e.target.value)}
               />
-
+              <small className="error-msg">
+                {errors.confirmPassword && errors.confirmPassword.msg}
+              </small>
               <button
                 className="signup-btn"
                 type="submit"
                 onClick={(e) => {
                   e.preventDefault();
-                  this.props.signupNewUser();
+                  signupNewUser();
+                  if (success) {
+                    this.props.history.push('/admin');
+                  }
                 }}
               >
                 Sign Up
@@ -99,7 +121,8 @@ class SignUp extends React.Component {
 }
 const mapStateToProps = (state) => ({
   user: state.signupUser,
-  errors: state,
+  errors: state.errors.userErrors,
+  success: state.errors.signupSuccess,
 });
 const mapDispatchToProps = {
   signupUserName,

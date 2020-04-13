@@ -120,7 +120,7 @@ body {
 
 /* Sign Up Page */
 .signup-wrapper {
-  background: url('/images/signup-bg.jpg');
+  /* background: url('/images/signup-bg.jpg'); */
 }
 
 .signup-form {
@@ -165,3 +165,7 @@ body {
 }
 
 /* Sign Up Page END*/
+
+/* Login page  */
+
+/* Login page  END*/

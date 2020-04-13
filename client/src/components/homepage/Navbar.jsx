@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 class Navbar extends React.Component {
   render() {
@@ -27,11 +27,11 @@ class Navbar extends React.Component {
             </div>
             <div className="col-4 d-flex justify-content-center">
               <div className="signup-wrapper">
-                <Link to="/signin" className="signup-link">
+                <Link to="/users/login" className="signup-link">
                   Sign in
                 </Link>
                 <span className="link-slesh">/</span>
-                <Link to="signup" className="signup-link">
+                <Link to="/users/create" className="signup-link">
                   Sign up
                 </Link>
               </div>

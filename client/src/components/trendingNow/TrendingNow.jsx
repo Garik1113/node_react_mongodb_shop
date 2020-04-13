@@ -1,16 +1,16 @@
-import React from "react";
-import InfiniteCarousel from "react-leaf-carousel";
+import React from 'react';
+import InfiniteCarousel from 'react-leaf-carousel';
 
 class TrendingNow extends React.Component {
   constructor() {
     super();
     this.state = {
       trendingProducts: [
-        { name: "jeans", image: "images/jeans.jpg" },
-        { name: "jeans", image: "images/jeans.jpg" },
-        { name: "jeans", image: "images/jeans.jpg" },
-        { name: "jeans", image: "images/jeans.jpg" },
-        { name: "jeans", image: "images/jeans.jpg" },
+        { name: 'jeans', image: 'images/jeans.jpg' },
+        { name: 'jeans', image: 'images/jeans.jpg' },
+        { name: 'jeans', image: 'images/jeans.jpg' },
+        { name: 'jeans', image: 'images/jeans.jpg' },
+        { name: 'jeans', image: 'images/jeans.jpg' },
       ],
     };
   }
@@ -52,7 +52,7 @@ class TrendingNow extends React.Component {
           >
             {this.state.trendingProducts.map((e, i) => {
               return (
-                <div>
+                <div key={i}>
                   <img src={e.image} alt="" />
                   <p className="carousel-item-name">{e.name}</p>
                 </div>

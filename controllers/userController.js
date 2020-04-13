@@ -1,6 +1,6 @@
-const User = require("../models/user");
-const bcrypt = require("bcrypt");
-const { validationResult } = require("express-validator");
+const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const { validationResult } = require('express-validator');
 
 class UserController {
   async create(req, res) {
@@ -17,7 +17,11 @@ class UserController {
       password: hashedPassword,
     };
     await User.create(user);
-    res.send("OK");
+    res.send('OK');
+  }
+
+  async login(req, res) {
+    // console.log(req.body);
   }
 }
 
