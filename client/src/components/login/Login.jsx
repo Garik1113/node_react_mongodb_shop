@@ -1,30 +1,50 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import {
   loginUserEmail,
   loginUserPassword,
   loginUser,
-} from '../../actions/userActions';
+} from "../../actions/userActions";
 class Login extends React.Component {
   render() {
     const { email, password } = this.props.user;
+    const { errors, success } = this.props;
     const { loginUserEmail, loginUserPassword, loginUser } = this.props;
     return (
-      <div>
-        <form>
+      <div className="container-fluid">
+        <form className="col-4 offset-4 mt-5 signup-form">
+          <h1 className="text-center">Login</h1>
           <input
             type="text"
             placeholder="Email"
+            className="signup-input "
             value={email}
             onChange={(e) => loginUserEmail(e.target.value)}
           />
+          <small className="error-msg">
+            {errors.email && errors.email.msg}
+          </small>
           <input
             type="password"
             placeholder="Password"
+            className="signup-input"
             value={password}
             onChange={(e) => loginUserPassword(e.target.value)}
           />
-          <button type="button" onClick={() => loginUser()}>
+          <small className="error-msg">
+            {errors.password && errors.password.msg}
+          </small>
+          <button
+            type="button"
+            className="signup-btn"
+            onClick={() => {
+              loginUser();
+              console.log(this.props);
+              if (success) {
+                this.props.history.push("/");
+              }
+            }}
+          >
             Login
           </button>
         </form>

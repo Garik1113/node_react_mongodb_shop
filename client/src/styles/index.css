@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Work+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans&display=swap");
 
 body {
   margin: 0;
@@ -87,7 +87,7 @@ body {
 /* Admin Page */
 
 .adminPage-wrapper {
-  background: url('/images/admin-page-bg.jpg');
+  background: url("/images/admin-page-bg.jpg");
 }
 
 .addProduct-form {
@@ -169,3 +169,28 @@ body {
 /* Login page  */
 
 /* Login page  END*/
+
+/* Product Page */
+.product-card {
+  /* width: 100%; */
+  text-align: center;
+  margin-top: 30px;
+  margin-left: 30px;
+  /* box-shadow: 10px 15px rgba(0, 0, 0, 0.445); */
+}
+.product-card-img {
+  max-width: 250px;
+}
+.product-card-name {
+  font-size: 24px;
+  color: #000000;
+  cursor: pointer;
+}
+.product-card-price {
+  color: #38dabc;
+  margin-left: 15px;
+}
+.product-card-description {
+  font-size: 16px;
+}
+/* Product Page END*/

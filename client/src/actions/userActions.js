@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   ADD_SIGNUP_NAME,
   ADD_SIGNUP_SURNAME,
@@ -8,8 +8,13 @@ import {
   ADD_SIGNUP_CONFIRM_PASSWORM,
   ADD_LOGIN_EMAIL,
   ADD_LOGIN_PASSWORD,
-} from '../types';
-import { returnSignupErrors, returnSignupSucces } from './errorActions';
+} from "../types";
+import {
+  returnSignupErrors,
+  returnSignupSucces,
+  returnLoginErrors,
+  returnLoginSuccess,
+} from "./errorActions";
 
 //Signup new user
 export const signupUserName = (name) => (dispatch) => {
@@ -55,12 +60,12 @@ export const signupUserConfirmPassword = (confirmPassword) => (dispatch) => {
 };
 
 export const signupNewUser = () => (dispatch, getState) => {
-  axios.post('/users/create', getState().signupUser).then((res) => {
+  axios.post("/users/create", getState().signupUser).then((res) => {
     console.log(this);
     if (res.data.errors) {
       return dispatch(returnSignupErrors(res.data.errors));
     }
-    return dispatch(returnSignupSucces('ok'));
+    return dispatch(returnSignupSucces("ok"));
   });
 };
 
@@ -80,7 +85,10 @@ export const loginUserPassword = (password) => (dispatch) => {
 };
 
 export const loginUser = () => (dispatch, getState) => {
-  axios
-    .post('/users/login', getState().loginUser)
-    .then((res) => console.log(res));
+  axios.post("/users/login", getState().loginUser).then((res) => {
+    if (res.data.errors) {
+      return dispatch(returnLoginErrors(res.data.errors));
+    }
+    return dispatch(returnLoginSuccess("ok"));
+  });
 };

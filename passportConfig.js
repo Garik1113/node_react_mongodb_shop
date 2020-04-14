@@ -1,26 +1,43 @@
-const passport = require('passport');
-const User = require('./models/user');
-const bcrypt = require('bcrypt');
+const Localstrategy = require("passport-local").Strategy;
+const User = require("./models/user");
+const bcrypt = require("bcrypt");
 
-const Localstrategy = require('passport-local').Strategy;
-
-passport.use(
-  new Localstrategy(
-    { usernameField: 'email', passwordField: 'password' },
-    (email, password, done) => {
-      User.findOne({ email: email }, (err, user) => {
-        if (err) throw err;
-        if (!user) {
-          return done(null, false, {
-            message: 'Cant find User for that email',
-          });
+function initializePassport(passport) {
+  const authenticateUser = async (email, password, done) => {
+    const errors = { password: { msg: "" }, email: { msg: "" } };
+    User.findOne({ email: email }, async (err, user) => {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        delete errors.password;
+        errors.email.msg = "Incorrect email.";
+        return done(null, false, errors);
+      }
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (res) {
+          return done(null, user);
+        } else {
+          delete errors.email;
+          errors.password.msg = "Incorrect password";
+          return done(null, false, errors);
         }
-        if (!bcrypt.compare(password, user.password)) {
-          return done(null, false, { message: 'Incorrect password' });
-        }
-        console.log('ok');
-        return done(null, user);
       });
-    }
-  )
-);
+    });
+  };
+  passport.use(
+    new Localstrategy(
+      { usernameField: "email", passwordField: "password" },
+      authenticateUser
+    )
+  );
+
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+  passport.deserializeUser((id, done) => {
+    done(null, id);
+  });
+}
+
+module.exports = initializePassport;

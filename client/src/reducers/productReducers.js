@@ -6,18 +6,20 @@ import {
   ADD_PRODUCT_GENDER,
   ADD_PRODUCT_SUCCESS,
   ADD_PRODUCT_IMAGE_PATHS,
-} from '../types';
+  GET_TOP_PRODUCTS,
+  GET_PRODUCT,
+} from "../types";
 
-const initialState = {
-  name: '',
-  price: '',
-  category: '',
-  gender: '',
-  quantity: '',
-  imagePaths: '',
+const addedProductinitialState = {
+  name: "",
+  price: "",
+  category: "",
+  gender: "",
+  quantity: "",
+  imagePaths: "",
 };
 
-export const addedProduct = (state = initialState, action) => {
+export const addedProduct = (state = addedProductinitialState, action) => {
   switch (action.type) {
     case ADD_PRODUCT_NAME:
       return { ...state, name: action.payload };
@@ -32,7 +34,28 @@ export const addedProduct = (state = initialState, action) => {
     case ADD_PRODUCT_IMAGE_PATHS:
       return { ...state, imagePaths: action.payload };
     case ADD_PRODUCT_SUCCESS:
-      return initialState;
+      return addedProductinitialState;
+    default:
+      return state;
+  }
+};
+
+const topProductsInitialState = [];
+
+export const topProducts = (state = topProductsInitialState, action) => {
+  switch (action.type) {
+    case GET_TOP_PRODUCTS:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+const initialProductPageState = {};
+export const productPage = (state = initialProductPageState, action) => {
+  switch (action.type) {
+    case GET_PRODUCT:
+      return action.payload;
     default:
       return state;
   }

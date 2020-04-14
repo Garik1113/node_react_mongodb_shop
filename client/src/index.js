@@ -1,15 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './styles/index.css';
-import store from './store';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./styles/index.css";
+import store from "./store";
+import { Provider } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 //Components
-import HomePage from './components/homepage/HomePage';
-import AdminPage from './components/adminPage/AdminPage';
-import SignUp from './components/signupPage/SignUp';
-import Login from './components/login/Login';
+import HomePage from "./components/homepage/HomePage";
+import AdminPage from "./components/adminPage/AdminPage";
+import SignUp from "./components/signupPage/SignUp";
+import Login from "./components/login/Login";
+import ProductPage from "./components/productPage/ProductPage";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -22,7 +23,8 @@ ReactDOM.render(
       </Route>
       <Route path="/users/create" component={SignUp} />
       <Route path="/users/login" component={Login} />
+      <Route path="/products/getPage/:id" exact component={ProductPage} />
     </Router>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

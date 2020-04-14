@@ -1,7 +1,7 @@
-const HomeController = require("../controllers/homeController");
+const ProductController = require("../controllers/productController");
 const express = require("express");
 const homeRouter = express.Router();
 
-homeRouter.use("/genders/new", HomeController.getGenders);
+homeRouter.use("/getTopProducts", ProductController.getTopProducts);
 
 module.exports = homeRouter;

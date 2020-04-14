@@ -17,4 +17,11 @@ const signupValidate = () => {
   ];
 };
 
-module.exports = signupValidate;
+const loginValidate = () => {
+  return [
+    check("email").notEmpty().withMessage("Email is Required"),
+    check("password").notEmpty().withMessage("Password is Required"),
+  ];
+};
+
+module.exports = { loginValidate, signupValidate };
