@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import {
   addProductName,
   addProductCategory,
@@ -8,9 +8,12 @@ import {
   addProductQuantity,
   addProductImages,
   addProduct,
-} from '../../actions/productActions';
-
+} from "../../actions/productActions";
+import { getCategories } from "../../actions/categoryActions";
 class AddProduct extends React.Component {
+  componentDidMount() {
+    this.props.getCategories();
+  }
   render() {
     const { name, price, category, gender, quantity } = this.props.addedProduct;
     const {
@@ -23,10 +26,10 @@ class AddProduct extends React.Component {
       addProduct,
       errors,
       productSuccess,
+      categories,
     } = this.props;
-
     return (
-      <div className="col-4 offset-4 d-flex justify-content-center">
+      <div className="col-3 d-flex justify-content-center add-product-wrapper mt-4 m-2">
         <form className="addProduct-form">
           <h2 className="text-center">Add Product</h2>
           <h4 className="alert-success">{productSuccess}</h4>
@@ -38,13 +41,16 @@ class AddProduct extends React.Component {
             onChange={(e) => addProductName(e.target.value)}
           />
           <small className="error-msg">{errors.name && errors.name.msg}</small>
-          <input
-            type="text"
-            className="addProduct-input"
-            placeholder="Category"
-            value={category}
+          <select
+            className="select-css"
             onChange={(e) => addProductCategory(e.target.value)}
-          />
+          >
+            <option>Choose category</option>;
+            {categories &&
+              categories.map((e, i) => {
+                return <option key={i}>{e.name}</option>;
+              })}
+          </select>
           <small className="error-msg">
             {errors.category && errors.category.msg}
           </small>
@@ -89,7 +95,7 @@ class AddProduct extends React.Component {
           <label htmlFor="file">Add images</label>
           <small className="error-msg">
             {errors.imagePaths && errors.imagePaths.msg}
-          </small>{' '}
+          </small>{" "}
           <br />
           <button
             type="button"
@@ -108,6 +114,7 @@ const mapStateToProps = (state) => ({
   addedProduct: state.addedProduct,
   errors: state.errors.addedProductErrors,
   productSuccess: state.errors.productSuccess,
+  categories: state.categories,
 });
 
 const mapDispatchToProps = {
@@ -118,5 +125,6 @@ const mapDispatchToProps = {
   addProductQuantity,
   addProductImages,
   addProduct,
+  getCategories,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AddProduct);

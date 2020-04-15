@@ -10,15 +10,15 @@ import {
   GET_PRODUCT,
   SEARCH_PRODUCT,
   CLEAR_SEARCHING_RESULTS,
-} from '../types';
+} from "../types";
 
 const addedProductinitialState = {
-  name: '',
-  price: '',
-  category: '',
-  gender: '',
-  quantity: '',
-  imagePaths: '',
+  name: "",
+  price: "",
+  category: "",
+  gender: "",
+  quantity: "",
+  imagePaths: "",
 };
 
 export const addedProduct = (state = addedProductinitialState, action) => {

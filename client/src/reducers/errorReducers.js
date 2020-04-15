@@ -6,14 +6,18 @@ import {
   SIGNUP_SUCCESS,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAILED,
-} from '../types';
+  ADD_NEW_CATEGORY_FAILED,
+  ADD_NEW_CATEGORY_SUCCESS,
+} from "../types";
 
 const initialState = {
   addedProductErrors: {},
   userErrors: {},
-  signupSuccess: '',
-  loginSuccess: '',
-  productSuccess: '',
+  signupSuccess: "",
+  loginSuccess: "",
+  productSuccess: "",
+  categoryErrors: "",
+  categorySuccess: "",
 };
 
 export const errors = (state = initialState, action) => {
@@ -32,6 +36,10 @@ export const errors = (state = initialState, action) => {
       return { ...state, userErrors: action.payload };
     case USER_LOGIN_SUCCESS:
       return { ...state, loginSuccess: action.payload };
+    case ADD_NEW_CATEGORY_FAILED:
+      return { ...state, categoryErrors: action.payload, categorySuccess: "" };
+    case ADD_NEW_CATEGORY_SUCCESS:
+      return { ...state, categoryErrors: "", categorySuccess: action.payload };
     default:
       return state;
   }

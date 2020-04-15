@@ -3,6 +3,7 @@ const app = express();
 const HomeRouter = require("./routes/homeRoutes");
 const UserRouter = require("./routes/userRoutes");
 const ProductRouter = require("./routes/productRoutes");
+const CategoryRouter = require("./routes/categoryRoutes");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const multer = require("multer");
@@ -49,6 +50,7 @@ app.use(multer({ storage: storageConfig }).array("images"));
 app.use("/home", HomeRouter);
 app.use("/users", UserRouter);
 app.use("/products", ProductRouter);
+app.use("/categories", CategoryRouter);
 
 //db config and start app
 const URL = process.env.DB_URL;

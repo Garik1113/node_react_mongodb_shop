@@ -5,48 +5,66 @@ import {
   SIGNUP_SUCCESS,
   USER_LOGIN_FAILED,
   USER_LOGIN_SUCCESS,
-} from '../types';
+  ADD_NEW_CATEGORY_FAILED,
+  ADD_NEW_CATEGORY_SUCCESS,
+} from "../types";
 
 //Add ne product errors
-export const returnProductErrors = (errors) => (dispatch, getState) => {
-  return dispatch({
+export const returnProductErrors = (errors) => {
+  return {
     type: ADD_PRODUCT_FAILED,
     payload: errors,
-  });
+  };
 };
 
-export const clearProductErrors = () => (dispatch, getState) => {
-  return dispatch({
+export const clearProductErrors = () => {
+  return {
     type: CLEAR_PRODUCT_ERRORS,
-  });
+  };
 };
 
 //Signup errors
-export const returnSignupErrors = (errors) => (dispatch, getState) => {
-  dispatch({
+export const returnSignupErrors = (errors) => {
+  return {
     type: SIGNUP_USER_FAILED,
     payload: errors,
-  });
+  };
 };
 
-export const returnSignupSucces = (success) => (dispatch, getState) => {
-  dispatch({
+export const returnSignupSucces = (success) => {
+  return {
     type: SIGNUP_SUCCESS,
     payload: success,
-  });
+  };
 };
 
 //Login errors
-export const returnLoginErrors = (errors) => (dispatch) => {
-  return dispatch({
+export const returnLoginErrors = (errors) => {
+  return {
     type: USER_LOGIN_FAILED,
     payload: errors,
-  });
+  };
 };
 
-export const returnLoginSuccess = (success) => (dispatch) => {
-  return dispatch({
+export const returnLoginSuccess = (success) => {
+  return {
     type: USER_LOGIN_SUCCESS,
     payload: success,
-  });
+  };
+};
+
+//category errors
+
+export const categoryErrors = (errors) => {
+  return {
+    type: ADD_NEW_CATEGORY_FAILED,
+    payload: errors,
+  };
+};
+
+export const addCategorySuccess = (success) => {
+  return {
+    type: ADD_NEW_CATEGORY_SUCCESS,
+    payload: success,
+  };
 };

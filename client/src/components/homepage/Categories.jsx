@@ -1,31 +1,20 @@
 import React from "react";
+import { connect } from "react-redux";
+import { getCategories } from "../../actions/categoryActions";
 
 class Categories extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      categories: [
-        "shoes",
-        "shoes",
-        "shoes",
-        "shoes",
-        "shoes",
-        "shoes",
-        "shoes",
-        "shoes",
-        "shoes",
-      ],
-    };
+  componentDidMount() {
+    this.props.getCategories();
   }
   render() {
     return (
       <div className="container">
         <div className="d-flex justify-content-center col-10 offset-1">
           <ul className="d-flex align-items-center ">
-            {this.state.categories.map((e, i) => {
+            {this.props.categories.map((e, i) => {
               return (
                 <li key={i} className="categories-item">
-                  {e}
+                  {e.name}
                 </li>
               );
             })}
@@ -36,4 +25,8 @@ class Categories extends React.Component {
   }
 }
 
-export default Categories;
+const mapStateToProps = (state) => ({
+  categories: state.categories,
+});
+
+export default connect(mapStateToProps, { getCategories })(Categories);

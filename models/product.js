@@ -1,4 +1,4 @@
-const { model, Schema } = require('mongoose');
+const { model, Schema } = require("mongoose");
 
 const product = new Schema({
   name: { type: String, required: true },
@@ -8,6 +8,7 @@ const product = new Schema({
   quantity: { type: Number, required: true },
   imagePaths: { type: Array, required: true },
   views: { type: Number, default: 0 },
+  countOfSales: { type: Number, default: 0 },
 });
 
-module.exports = model('product', product);
+module.exports = model("product", product);
