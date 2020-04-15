@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Navbar from '../homepage/Navbar';
 import {
   signupUserName,
   signupUserSurName,
@@ -32,6 +33,7 @@ class SignUp extends React.Component {
     } = this.props;
     return (
       <div className="container-fluid signup-wrapper vh-100">
+        <Navbar />
         <div className="row">
           <div className="col-4 offset-4 mt-5 d-flex justify-content-center">
             <form className="signup-form">

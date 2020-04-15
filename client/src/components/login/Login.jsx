@@ -1,10 +1,11 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
+import Navbar from '../homepage/Navbar';
 import {
   loginUserEmail,
   loginUserPassword,
   loginUser,
-} from "../../actions/userActions";
+} from '../../actions/userActions';
 class Login extends React.Component {
   render() {
     const { email, password } = this.props.user;
@@ -12,6 +13,7 @@ class Login extends React.Component {
     const { loginUserEmail, loginUserPassword, loginUser } = this.props;
     return (
       <div className="container-fluid">
+        <Navbar />
         <form className="col-4 offset-4 mt-5 signup-form">
           <h1 className="text-center">Login</h1>
           <input
@@ -41,7 +43,7 @@ class Login extends React.Component {
               loginUser();
               console.log(this.props);
               if (success) {
-                this.props.history.push("/");
+                this.props.history.push('/');
               }
             }}
           >

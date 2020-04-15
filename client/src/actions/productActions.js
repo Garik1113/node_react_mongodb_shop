@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   ADD_PRODUCT_NAME,
   ADD_PRODUCT_CATEGORY,
@@ -9,8 +9,10 @@ import {
   ADD_PRODUCT_IMAGE_PATHS,
   GET_TOP_PRODUCTS,
   GET_PRODUCT,
-} from "../types";
-import { returnProductErrors, clearProductErrors } from "./errorActions";
+  SEARCH_PRODUCT,
+  CLEAR_SEARCHING_RESULTS,
+} from '../types';
+import { returnProductErrors, clearProductErrors } from './errorActions';
 
 //Add new product action
 export const addProductName = (name) => (dispatch, getState) => {
@@ -49,10 +51,10 @@ export const addProductGender = (gender) => (dispatch, getState) => {
 export const addProductImages = (images) => (dispatch, getState) => {
   const formData = new FormData();
   for (let key in images) {
-    formData.append("images", images[key]);
+    formData.append('images', images[key]);
     delete images[key];
   }
-  axios.post("/products/addNewImage", formData).then((res) => {
+  axios.post('/products/addNewImage', formData).then((res) => {
     if (res.status === 200) {
       return dispatch({
         type: ADD_PRODUCT_IMAGE_PATHS,
@@ -73,7 +75,7 @@ export const addProduct = () => (dispatch, getState) => {
   };
 
   axios
-    .post("/products/addNewProduct", product)
+    .post('/products/addNewProduct', product)
     .then((res) => {
       if (res.status === 200) {
         dispatch(clearProductErrors());
@@ -89,7 +91,7 @@ export const addProduct = () => (dispatch, getState) => {
 };
 
 export const getTopProducts = () => (dispatch) => {
-  axios.get("/home/getTopProducts").then((res) => {
+  axios.get('/home/getTopProducts').then((res) => {
     if (res.status === 200) {
       return dispatch({
         type: GET_TOP_PRODUCTS,
@@ -106,6 +108,31 @@ export const getProductPage = (id) => (dispatch) => {
     if (res.status === 200) {
       return dispatch({
         type: GET_PRODUCT,
+        payload: res.data,
+      });
+    }
+  });
+};
+
+//Add product views
+
+export const addProductViews = (id) => (dispatch) => {
+  return axios.get(`/products/addVeiws/${id}`);
+};
+
+//Searching products in db
+
+export const searchProducts = (name) => (dispatch) => {
+  if (!name) {
+    return dispatch({
+      type: CLEAR_SEARCHING_RESULTS,
+      payload: [],
+    });
+  }
+  return axios.get(`/products/search/${name}`).then((res) => {
+    if (res.status === 200) {
+      return dispatch({
+        type: SEARCH_PRODUCT,
         payload: res.data,
       });
     }

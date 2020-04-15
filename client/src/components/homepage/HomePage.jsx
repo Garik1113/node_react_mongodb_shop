@@ -1,10 +1,14 @@
-import React from "react";
-import Navbar from "./Navbar";
-import Categories from "./Categories";
-import TrendingNow from "../trendingNow/TrendingNow";
-import ProductCard from "../productPage/ProductCard";
-import { getTopProducts, getProductPage } from "../../actions/productActions";
-import { connect } from "react-redux";
+import React from 'react';
+import Navbar from './Navbar';
+import Categories from './Categories';
+import TrendingNow from '../trendingNow/TrendingNow';
+import ProductCard from '../productPage/ProductCard';
+import {
+  getTopProducts,
+  getProductPage,
+  addProductViews,
+} from '../../actions/productActions';
+import { connect } from 'react-redux';
 class HomePage extends React.Component {
   componentDidMount() {
     this.props.getTopProducts();
@@ -19,6 +23,7 @@ class HomePage extends React.Component {
           <div className="col-10">
             <h1 className="text-center">Top Products</h1>
           </div>
+
           {this.props.topProducts.map((e, i) => {
             return (
               <ProductCard
@@ -26,6 +31,7 @@ class HomePage extends React.Component {
                 id={e._id}
                 name={e.name}
                 price={e.price}
+                addProductViews={() => this.props.addProductViews(e._id)}
                 imagePaths={e.imagePaths}
                 getProductPage={() => this.props.getProductPage(e._id)}
               />
@@ -41,6 +47,8 @@ const mapStateToProps = (state) => ({
   topProducts: state.topProducts,
 });
 
-export default connect(mapStateToProps, { getTopProducts, getProductPage })(
-  HomePage
-);
+export default connect(mapStateToProps, {
+  getTopProducts,
+  getProductPage,
+  addProductViews,
+})(HomePage);

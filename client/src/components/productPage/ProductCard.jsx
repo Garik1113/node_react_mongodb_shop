@@ -1,17 +1,22 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 class ProductCard extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: "Jeans",
-      price: "2000",
-      imagePaths: ["images/jeans.jpg"],
+      name: 'Jeans',
+      price: '2000',
+      imagePaths: ['images/jeans.jpg'],
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum veritatieos ducimus voluptate quo cupiditate recusandae quibusdam maxime asperioresdolorem!",
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum veritatieos ducimus voluptate quo cupiditate recusandae quibusdam maxime asperioresdolorem!',
     };
   }
+
+  handleClick = () => {
+    this.props.addProductViews();
+    this.props.getProductPage();
+  };
   render() {
     return (
       <div className="col-3 product-card">
@@ -24,7 +29,7 @@ class ProductCard extends React.Component {
           <Link to={`/products/getPage/${this.props.id}`}>
             <h2
               className="product-card-name"
-              onClick={this.props.getProductPage}
+              onClick={() => this.handleClick()}
             >
               {this.props.name}
             </h2>

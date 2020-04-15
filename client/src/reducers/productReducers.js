@@ -8,15 +8,17 @@ import {
   ADD_PRODUCT_IMAGE_PATHS,
   GET_TOP_PRODUCTS,
   GET_PRODUCT,
-} from "../types";
+  SEARCH_PRODUCT,
+  CLEAR_SEARCHING_RESULTS,
+} from '../types';
 
 const addedProductinitialState = {
-  name: "",
-  price: "",
-  category: "",
-  gender: "",
-  quantity: "",
-  imagePaths: "",
+  name: '',
+  price: '',
+  category: '',
+  gender: '',
+  quantity: '',
+  imagePaths: '',
 };
 
 export const addedProduct = (state = addedProductinitialState, action) => {
@@ -55,6 +57,17 @@ const initialProductPageState = {};
 export const productPage = (state = initialProductPageState, action) => {
   switch (action.type) {
     case GET_PRODUCT:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const searchingProducts = (state = [], action) => {
+  switch (action.type) {
+    case SEARCH_PRODUCT:
+      return action.payload;
+    case CLEAR_SEARCHING_RESULTS:
       return action.payload;
     default:
       return state;

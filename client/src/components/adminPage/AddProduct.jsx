@@ -80,18 +80,17 @@ class AddProduct extends React.Component {
           </small>
           <input
             type="file"
-            className="addProduct-input"
-            placeholder="Image"
-            key={0}
-            onChange={(e) => {
-              addProductImages(e.target.files);
-              e.target.value = null;
-            }}
+            name="file"
+            id="file"
+            className="inputfile"
+            onChange={(e) => addProductImages(e.target.files)}
             multiple
           />
+          <label htmlFor="file">Add images</label>
           <small className="error-msg">
             {errors.imagePaths && errors.imagePaths.msg}
-          </small>
+          </small>{' '}
+          <br />
           <button
             type="button"
             className="addProduct-btn"
