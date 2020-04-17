@@ -13,4 +13,5 @@ ProductRouter.post(
 ProductRouter.get("/getPage/:id", ProductController.getPage);
 ProductRouter.get("/addVeiws/:id", ProductController.addViews);
 ProductRouter.get("/search/:name", ProductController.searchProducts);
+
 module.exports = ProductRouter;

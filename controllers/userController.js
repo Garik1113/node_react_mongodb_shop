@@ -3,6 +3,22 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const { validationResult } = require("express-validator");
 
+//Jwt
+const jwt = require("jsonwebtoken");
+function generateToken(user) {
+  const newUser = {
+    name: user.name,
+    email: user.email,
+    _id: user._id.toString(),
+  };
+  return (token = jwt.sign(newUser, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "15s",
+  }));
+}
+
+function generateAccessToken(user) {
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
+}
 class UserController {
   async create(req, res) {
     const errors = validationResult(req);
@@ -15,6 +31,7 @@ class UserController {
         errors: { email: { msg: "User with that email is exist" } },
       });
     }
+
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = {
       name: req.body.name,
@@ -23,8 +40,10 @@ class UserController {
       email: req.body.email,
       password: hashedPassword,
     };
-    await User.create(user);
-    res.send("OK");
+    await User.create(user, (err, data) => {
+      res.json(generateToken(data));
+    });
+    // res.send("OK");
   }
 
   async login(req, res, next) {
@@ -50,10 +69,21 @@ class UserController {
             { _id: user._id },
             { isAuthenticated: true }
           );
-          return res.send({ user });
+          const token = generateToken(user);
+          const refreshToken = jwt.sign(
+            { name: user.name, email: user.email, id: user._id },
+            process.env.REFRESH_TOKEN_SECRET
+          );
+          return res.send({ user, token, refreshToken });
         });
       }
     )(req, res, next);
+  }
+  get(req, res, next) {
+    res.json({ ok: "everething is ok", user: req.user });
+  }
+  token(req, res) {
+    const token = req.body.token;
   }
 }
 

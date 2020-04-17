@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const HomeRouter = require("./routes/homeRoutes");
@@ -28,7 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //config data for port and db
-require("dotenv").config();
+
 const PORT = process.env.PORT || 5000;
 
 //get request body data
