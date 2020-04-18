@@ -1,6 +1,5 @@
 const express = require("express");
 const userRouter = express.Router();
-const passport = require("passport");
 const UserController = require("../controllers/userController");
 const {
   signupValidate,
@@ -22,6 +21,5 @@ function authenticateToken(req, res, next) {
 userRouter.post("/create", signupValidate(), UserController.create);
 userRouter.post("/login", loginValidate(), UserController.login);
 userRouter.post("/get", authenticateToken, UserController.get);
-userRouter.post("/token", UserController.token);
 
 module.exports = userRouter;

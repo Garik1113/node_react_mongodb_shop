@@ -80,7 +80,7 @@ class UserController {
     )(req, res, next);
   }
   get(req, res, next) {
-    res.json({ ok: "everething is ok", user: req.user });
+    res.json({ ok: "ok", user: req.user });
   }
   token(req, res) {
     const token = req.body.token;
