@@ -1,27 +1,27 @@
-require("dotenv").config();
-const express = require("express");
+require('dotenv').config();
+const express = require('express');
 const app = express();
-const HomeRouter = require("./routes/homeRoutes");
-const UserRouter = require("./routes/userRoutes");
-const ProductRouter = require("./routes/productRoutes");
-const CategoryRouter = require("./routes/categoryRoutes");
-const mongoose = require("mongoose");
-const session = require("express-session");
-const multer = require("multer");
+const HomeRouter = require('./routes/homeRoutes');
+const UserRouter = require('./routes/userRoutes');
+const ProductRouter = require('./routes/productRoutes');
+const CategoryRouter = require('./routes/categoryRoutes');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const multer = require('multer');
 
 //express session config
-app.set("trust proxy", 1);
+app.set('trust proxy', 1);
 app.use(
   session({
-    secret: "SECRET",
+    secret: 'SECRET',
     resave: false,
     saveUninitialized: false,
   })
 );
 
-const passport = require("passport");
-const flash = require("express-flash");
-const initializePassport = require("./passportConfig");
+const passport = require('passport');
+const flash = require('express-flash');
+const initializePassport = require('./passportConfig');
 initializePassport(passport);
 app.use(flash());
 
@@ -38,23 +38,23 @@ app.use(express.json());
 //Multer config for upload files
 const storageConfig = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "client/public/images");
+    cb(null, 'client/public/images');
   },
   filename: (req, file, cb) => {
-    const name = new Date().getTime() + file.originalname.replace(/\s/g, "");
+    const name = new Date().getTime() + file.originalname.replace(/\s/g, '');
     cb(null, name);
   },
 });
-app.use(multer({ storage: storageConfig }).array("images"));
+app.use(multer({ storage: storageConfig }).array('images'));
 
 //Routes
-app.use("/home", HomeRouter);
-app.use("/users", UserRouter);
-app.use("/products", ProductRouter);
-app.use("/categories", CategoryRouter);
+app.use('/home', HomeRouter);
+app.use('/users', UserRouter);
+app.use('/products', ProductRouter);
+app.use('/categories', CategoryRouter);
 
 //db config and start app
-const URL = process.env.DB_URL;
+const URL = process.env.DB_URI;
 const start = async () => {
   await mongoose.connect(
     URL,
@@ -70,7 +70,7 @@ const start = async () => {
     }
   );
   app.listen(PORT, () => {
-    console.log("Server has been running");
+    console.log('Server has been running');
   });
 };
 

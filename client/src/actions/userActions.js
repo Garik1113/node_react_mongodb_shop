@@ -1,94 +1,67 @@
-import axios from "axios";
-import {
-  ADD_SIGNUP_NAME,
-  ADD_SIGNUP_SURNAME,
-  ADD_SIGNUP_AGE,
-  ADD_SIGNUP_EMAIL,
-  ADD_SIGNUP_PASSWORD,
-  ADD_SIGNUP_CONFIRM_PASSWORM,
-  ADD_LOGIN_EMAIL,
-  ADD_LOGIN_PASSWORD,
-} from "../types";
-import {
-  returnSignupErrors,
-  returnSignupSucces,
-  returnLoginErrors,
-  returnLoginSuccess,
-} from "./errorActions";
+import axios from 'axios';
+
+import { returnErrors, clearErrors } from './errorActions';
+import { SIGN_UP_FAILED, SIGN_UP, LOG_IN, LOG_OUT } from '../types';
 
 //Signup new user
-export const signupUserName = (name) => (dispatch) => {
-  return dispatch({
-    type: ADD_SIGNUP_NAME,
-    payload: name,
-  });
-};
-
-export const signupUserSurName = (surname) => (dispatch) => {
-  return dispatch({
-    type: ADD_SIGNUP_SURNAME,
-    payload: surname,
-  });
-};
-
-export const signupUserAge = (age) => (dispatch) => {
-  return dispatch({
-    type: ADD_SIGNUP_AGE,
-    payload: age,
-  });
-};
-
-export const signupUserEmail = (email) => (dispatch) => {
-  return dispatch({
-    type: ADD_SIGNUP_EMAIL,
-    payload: email,
-  });
-};
-
-export const signupUserPassword = (password) => (dispatch) => {
-  return dispatch({
-    type: ADD_SIGNUP_PASSWORD,
-    payload: password,
-  });
-};
-
-export const signupUserConfirmPassword = (confirmPassword) => (dispatch) => {
-  return dispatch({
-    type: ADD_SIGNUP_CONFIRM_PASSWORM,
-    payload: confirmPassword,
-  });
-};
-
-export const signupNewUser = () => (dispatch, getState) => {
-  axios.post("/users/create", getState().signupUser).then((res) => {
-    console.log(this);
-    if (res.data.errors) {
-      return dispatch(returnSignupErrors(res.data.errors));
+export const signupNewUser = (user) => (dispatch, getState) => {
+  const url = '/users/create';
+  axios.post(url, user, tokenConfig(getState)).then((res) => {
+    if (res.status == 203) {
+      dispatch(returnErrors(res.data.errors, res.status));
+      return dispatch({
+        type: SIGN_UP_FAILED,
+      });
     }
-    return dispatch(returnSignupSucces("ok"));
-  });
-};
-
-// Login actions
-export const loginUserEmail = (email) => (dispatch) => {
-  return dispatch({
-    type: ADD_LOGIN_EMAIL,
-    payload: email,
-  });
-};
-
-export const loginUserPassword = (password) => (dispatch) => {
-  return dispatch({
-    type: ADD_LOGIN_PASSWORD,
-    payload: password,
-  });
-};
-
-export const loginUser = () => (dispatch, getState) => {
-  axios.post("/users/login", getState().loginUser).then((res) => {
-    if (res.data.errors) {
-      return dispatch(returnLoginErrors(res.data.errors));
+    const authToken = res.data;
+    if (authToken) {
+      dispatch({
+        type: SIGN_UP,
+        payload: authToken,
+      });
+    } else {
+      return dispatch({
+        type: SIGN_UP_FAILED,
+      });
     }
-    return dispatch(returnLoginSuccess("ok"));
   });
+};
+export const loginUser = (email, password) => (dispatch, getState) => {
+  axios
+    .post('/users/login', { email, password }, tokenConfig(getState))
+    .then((res) => {
+      if (res.status == 200 && res.data.token) {
+        dispatch({
+          type: LOG_IN,
+          payload: res.data.token,
+        });
+      } else {
+        dispatch(returnErrors(res.data.errors, res.status));
+      }
+    });
+};
+export const logOut = () => (dispatch, getState) => {
+  // axios.post('/users/logout', tokenConfig(getState)).then((res) => {
+  //   dispatch({
+  //     type: LOG_OUT,
+  //   });
+  // });
+  dispatch({
+    type: LOG_OUT,
+  });
+};
+
+const tokenConfig = (getState) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  const token = getState().user.token;
+  if (token) {
+    config.headers['Authorization'] = token;
+  }
+
+  return config;
 };

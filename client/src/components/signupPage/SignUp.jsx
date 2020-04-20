@@ -1,36 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import Navbar from '../homepage/Navbar';
-import {
-  signupUserName,
-  signupUserSurName,
-  signupUserAge,
-  signupUserEmail,
-  signupUserPassword,
-  signupUserConfirmPassword,
-  signupNewUser,
-} from '../../actions/userActions';
+import { signupNewUser } from '../../actions/userActions';
 class SignUp extends React.Component {
+  state = {
+    name: '',
+    surname: '',
+    email: '',
+    age: '',
+    password: '',
+    confirmPassword: '',
+  };
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
   render() {
-    const {
-      name,
-      surname,
-      age,
-      email,
-      password,
-      confirmPassword,
-    } = this.props.user;
-    const {
-      signupUserName,
-      signupUserSurName,
-      signupUserAge,
-      signupUserEmail,
-      signupUserPassword,
-      signupUserConfirmPassword,
-      signupNewUser,
-      errors,
-      success,
-    } = this.props;
+    const { name, surname, age, email, password, confirmPassword } = this.state;
+    const { signupNewUser, errors, user } = this.props;
+    if (user.token) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <div className="container-fluid signup-wrapper vh-100">
         <Navbar />
@@ -45,71 +36,81 @@ class SignUp extends React.Component {
                 type="text"
                 className="signup-input"
                 placeholder="Name"
+                name="name"
                 value={name}
-                onChange={(e) => signupUserName(e.target.value)}
+                onChange={this.handleChange}
               />
               <small className="error-msg">
-                {errors.name && errors.name.msg}
+                {errors.data.name && errors.data.name.msg}
               </small>
               <input
                 type="text"
                 className="signup-input"
+                name="surname"
                 placeholder="Surname"
                 value={surname}
-                onChange={(e) => signupUserSurName(e.target.value)}
+                onChange={this.handleChange}
               />
               <small className="error-msg">
-                {errors.surname && errors.surname.msg}
+                {errors.data.surname && errors.data.surname.msg}
               </small>
               <input
                 type="text"
                 className="signup-input"
+                name="age"
                 placeholder="Age"
                 value={age}
-                onChange={(e) => signupUserAge(e.target.value)}
+                onChange={this.handleChange}
               />
               <small className="error-msg">
-                {errors.age && errors.age.msg}
+                {errors.data.age && errors.data.age.msg}
               </small>
               <input
                 type="text"
                 className="signup-input"
+                name="email"
                 placeholder="Email"
                 value={email}
-                onChange={(e) => signupUserEmail(e.target.value)}
+                onChange={this.handleChange}
               />
               <small className="error-msg">
-                {errors.email && errors.email.msg}
+                {errors.data.email && errors.data.email.msg}
               </small>
               <input
                 type="text"
                 className="signup-input"
                 placeholder="Password"
+                name="password"
                 value={password}
-                onChange={(e) => signupUserPassword(e.target.value)}
+                onChange={this.handleChange}
               />
               <small className="error-msg">
-                {errors.password && errors.password.msg}
+                {errors.data.password && errors.data.password.msg}
               </small>
               <input
                 type="text"
                 className="signup-input"
+                name="confirmPassword"
                 placeholder="Confirm Password"
                 value={confirmPassword}
-                onChange={(e) => signupUserConfirmPassword(e.target.value)}
+                onChange={this.handleChange}
               />
               <small className="error-msg">
-                {errors.confirmPassword && errors.confirmPassword.msg}
+                {errors.data.confirmPassword && errors.data.confirmPassword.msg}
               </small>
               <button
                 className="signup-btn"
                 type="submit"
                 onClick={(e) => {
                   e.preventDefault();
-                  signupNewUser();
-                  if (success) {
-                    this.props.history.push('/admin');
-                  }
+                  signupNewUser({
+                    name,
+                    surname,
+                    age,
+                    email,
+                    password,
+                    confirmPassword,
+                  });
                 }}
               >
                 Sign Up
@@ -122,17 +123,10 @@ class SignUp extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  user: state.signupUser,
-  errors: state.errors.userErrors,
-  success: state.errors.signupSuccess,
+  user: state.user,
+  errors: state.errors,
 });
 const mapDispatchToProps = {
-  signupUserName,
-  signupUserSurName,
-  signupUserAge,
-  signupUserEmail,
-  signupUserPassword,
-  signupUserConfirmPassword,
   signupNewUser,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

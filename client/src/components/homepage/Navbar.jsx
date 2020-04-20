@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { searchProducts, getProductPage } from '../../actions/productActions';
+
+import { logOut } from '../../actions/userActions';
 import { connect } from 'react-redux';
 
 class Navbar extends React.Component {
@@ -39,13 +41,26 @@ class Navbar extends React.Component {
             </div>
             <div className="col-4 d-flex justify-content-center">
               <div className="signup-wrapper">
-                <Link to="/users/login" className="signup-link">
-                  Sign in
-                </Link>
-                <span className="link-slesh">/</span>
-                <Link to="/users/create" className="signup-link">
-                  Sign up
-                </Link>
+                {this.props.user.isAuthorizated && (
+                  <Link
+                    to="/"
+                    className="signup-link"
+                    onClick={this.props.logOut}
+                  >
+                    Log Out
+                  </Link>
+                )}
+                {!this.props.user.isAuthorizated && (
+                  <div>
+                    <Link to="/users/login" className="signup-link">
+                      Sign in
+                    </Link>
+                    <span className="link-slesh">/</span>
+                    <Link to="/users/create" className="signup-link">
+                      Sign up
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -78,8 +93,11 @@ class Navbar extends React.Component {
 
 const mapStateToProps = (state) => ({
   searchingProducts: state.searchingProducts,
+  user: state.user,
 });
 
-export default connect(mapStateToProps, { searchProducts, getProductPage })(
-  Navbar
-);
+export default connect(mapStateToProps, {
+  searchProducts,
+  getProductPage,
+  logOut,
+})(Navbar);

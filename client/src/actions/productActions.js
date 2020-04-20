@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   ADD_PRODUCT_NAME,
   ADD_PRODUCT_CATEGORY,
@@ -11,8 +11,8 @@ import {
   GET_PRODUCT,
   SEARCH_PRODUCT,
   CLEAR_SEARCHING_RESULTS,
-} from "../types";
-import { returnProductErrors, clearProductErrors } from "./errorActions";
+} from '../types';
+// import { returnProductErrors, clearProductErrors } from "./errorActions";
 
 //Add new product action
 export const addProductName = (name) => (dispatch, getState) => {
@@ -51,10 +51,10 @@ export const addProductGender = (gender) => (dispatch, getState) => {
 export const addProductImages = (images) => (dispatch, getState) => {
   const formData = new FormData();
   for (let key in images) {
-    formData.append("images", images[key]);
+    formData.append('images', images[key]);
     delete images[key];
   }
-  axios.post("/products/addNewImage", formData).then((res) => {
+  axios.post('/products/addNewImage', formData).then((res) => {
     if (res.status === 200) {
       return dispatch({
         type: ADD_PRODUCT_IMAGE_PATHS,
@@ -75,23 +75,23 @@ export const addProduct = () => (dispatch, getState) => {
   };
 
   axios
-    .post("/products/addNewProduct", product)
+    .post('/products/addNewProduct', product)
     .then((res) => {
       if (res.status === 200) {
-        dispatch(clearProductErrors());
+        // dispatch(clearProductErrors());
         return dispatch({
           type: ADD_PRODUCT_SUCCESS,
           payload: res.data,
         });
       } else {
-        return dispatch(returnProductErrors(res.data));
+        // return dispatch(returnProductErrors(res.data));
       }
     })
     .catch((e) => console.log(e));
 };
 
 export const getTopProducts = () => (dispatch) => {
-  axios.get("/home/getTopProducts").then((res) => {
+  axios.get('/home/getTopProducts').then((res) => {
     if (res.status === 200) {
       return dispatch({
         type: GET_TOP_PRODUCTS,

@@ -1,10 +1,10 @@
-const User = require("../models/user");
-const bcrypt = require("bcrypt");
-const passport = require("passport");
-const { validationResult } = require("express-validator");
+const User = require('../models/user');
+const bcrypt = require('bcrypt');
+const passport = require('passport');
+const { validationResult } = require('express-validator');
 
 //Jwt
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 function generateToken(user) {
   const newUser = {
     name: user.name,
@@ -12,23 +12,20 @@ function generateToken(user) {
     _id: user._id.toString(),
   };
   return (token = jwt.sign(newUser, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "15s",
+    expiresIn: '15s',
   }));
 }
 
-function generateAccessToken(user) {
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15s" });
-}
 class UserController {
   async create(req, res) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.send({ errors: errors.mapped() });
+      return res.status(203).send({ errors: errors.mapped() });
     }
     const existUser = await User.findOne({ email: req.body.email });
     if (existUser) {
-      return res.send({
-        errors: { email: { msg: "User with that email is exist" } },
+      return res.status(203).send({
+        errors: { email: { msg: 'User with that email is exist' } },
       });
     }
 
@@ -41,9 +38,9 @@ class UserController {
       password: hashedPassword,
     };
     await User.create(user, (err, data) => {
-      res.json(generateToken(data));
+      // res.header.authorization = ;
+      return res.status(200).send(generateToken(data));
     });
-    // res.send("OK");
   }
 
   async login(req, res, next) {
@@ -52,7 +49,7 @@ class UserController {
       return res.send({ errors: errors.mapped() });
     }
     passport.authenticate(
-      "local",
+      'local',
       { failureFlash: true },
       (err, user, info) => {
         if (err) {
@@ -70,17 +67,13 @@ class UserController {
             { isAuthenticated: true }
           );
           const token = generateToken(user);
-          const refreshToken = jwt.sign(
-            { name: user.name, email: user.email, id: user._id },
-            process.env.REFRESH_TOKEN_SECRET
-          );
-          return res.send({ user, token, refreshToken });
+          return res.send({ user, token });
         });
       }
     )(req, res, next);
   }
   get(req, res, next) {
-    res.json({ ok: "ok", user: req.user });
+    res.json({ ok: 'ok', user: req.user });
   }
   token(req, res) {
     const token = req.body.token;

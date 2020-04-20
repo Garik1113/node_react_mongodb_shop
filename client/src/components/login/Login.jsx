@@ -1,16 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 import Navbar from '../homepage/Navbar';
-import {
-  loginUserEmail,
-  loginUserPassword,
-  loginUser,
-} from '../../actions/userActions';
+import { loginUser } from '../../actions/userActions';
 class Login extends React.Component {
+  state = {
+    email: '',
+    password: '',
+  };
   render() {
-    const { email, password } = this.props.user;
-    const { errors, success } = this.props;
-    const { loginUserEmail, loginUserPassword, loginUser } = this.props;
+    const { loginUser, errors, user } = this.props;
+    if (user.token) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="container-fluid">
         <Navbar />
@@ -20,31 +22,25 @@ class Login extends React.Component {
             type="text"
             placeholder="Email"
             className="signup-input "
-            value={email}
-            onChange={(e) => loginUserEmail(e.target.value)}
+            onChange={(e) => this.setState({ email: e.target.value })}
           />
           <small className="error-msg">
-            {errors.email && errors.email.msg}
+            {errors.data.email && errors.data.email.msg}
           </small>
           <input
             type="password"
             placeholder="Password"
             className="signup-input"
-            value={password}
-            onChange={(e) => loginUserPassword(e.target.value)}
+            onChange={(e) => this.setState({ password: e.target.value })}
           />
           <small className="error-msg">
-            {errors.password && errors.password.msg}
+            {errors.data.password && errors.data.password.msg}
           </small>
           <button
             type="button"
             className="signup-btn"
             onClick={() => {
-              loginUser();
-              console.log(this.props);
-              if (success) {
-                this.props.history.push('/');
-              }
+              loginUser(this.state.email, this.state.password);
             }}
           >
             Login
@@ -56,13 +52,8 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  user: state.loginUser,
-  errors: state.errors.userErrors,
-  success: state.errors.loginSuccess,
+  user: state.user,
+  errors: state.errors,
 });
-const mapDispatchToProps = {
-  loginUserEmail,
-  loginUserPassword,
-  loginUser,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+export default connect(mapStateToProps, { loginUser })(Login);

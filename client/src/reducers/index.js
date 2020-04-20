@@ -1,18 +1,17 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 import {
   addedProduct,
   topProducts,
   productPage,
   searchingProducts,
-} from "./productReducers";
-import { categories } from "./categoryReducers";
-import { errors } from "./errorReducers";
-import { signupUser, loginUser } from "./userReducers";
+} from './productReducers';
+import { categories } from './categoryReducers';
+import { errors } from './errorReducers';
+import { user } from './userReducers';
 export default combineReducers({
   addedProduct,
   errors,
-  signupUser,
-  loginUser,
+  user,
   topProducts,
   productPage,
   searchingProducts,

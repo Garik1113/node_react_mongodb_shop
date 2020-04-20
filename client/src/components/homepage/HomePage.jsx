@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import Categories from './Categories';
 import TrendingNow from '../trendingNow/TrendingNow';
 import ProductCard from '../productPage/ProductCard';
+
 import {
   getTopProducts,
   getProductPage,
@@ -45,6 +46,7 @@ class HomePage extends React.Component {
 
 const mapStateToProps = (state) => ({
   topProducts: state.topProducts,
+  user: state.user,
 });
 
 export default connect(mapStateToProps, {
