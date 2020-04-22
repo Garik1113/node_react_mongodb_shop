@@ -21,6 +21,9 @@ class CategoryController {
       });
     }
   }
+  async getProducts(req, res) {
+    const name = req.body.name;
+  }
 }
 
 module.exports = new CategoryController();

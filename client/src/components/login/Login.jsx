@@ -1,16 +1,16 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
-import Navbar from '../homepage/Navbar';
-import { loginUser } from '../../actions/userActions';
+import React from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router";
+import Navbar from "../homepage/Navbar";
+import { loginUser } from "../../actions/userActions";
 class Login extends React.Component {
   state = {
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   };
   render() {
     const { loginUser, errors, user } = this.props;
-    if (user.token) {
+    if (user.isAuthorizated) {
       return <Redirect to="/" />;
     }
     return (

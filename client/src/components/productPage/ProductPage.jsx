@@ -1,13 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { getProductPage } from '../../actions/productActions';
-import Navbar from '../homepage/Navbar';
+import React from "react";
+import { connect } from "react-redux";
+import { getProductPage } from "../../actions/productActions";
+import Navbar from "../homepage/Navbar";
 
 class ProductPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      activeImg: '',
+      activeImg: "",
     };
   }
   componentDidMount() {
@@ -26,7 +26,7 @@ class ProductPage extends React.Component {
               <div className="general-image-wrappper">
                 {!activeImg && (
                   <img
-                    src={product.imagePaths && '/' + product.imagePaths[0]}
+                    src={product.imagePaths && "/" + product.imagePaths[0]}
                     className="general-image"
                     alt=""
                   />
@@ -38,7 +38,7 @@ class ProductPage extends React.Component {
                   product.imagePaths.map((e, i) => {
                     return (
                       <img
-                        src={'/' + e}
+                        src={"/" + e}
                         alt=""
                         className="img-list-item"
                         key={i}

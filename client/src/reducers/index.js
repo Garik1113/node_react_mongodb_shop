@@ -1,13 +1,14 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 import {
   addedProduct,
   topProducts,
   productPage,
   searchingProducts,
-} from './productReducers';
-import { categories } from './categoryReducers';
-import { errors } from './errorReducers';
-import { user } from './userReducers';
+  productsByCatName,
+} from "./productReducers";
+import { categories } from "./categoryReducers";
+import { errors } from "./errorReducers";
+import { user } from "./userReducers";
 export default combineReducers({
   addedProduct,
   errors,
@@ -16,4 +17,5 @@ export default combineReducers({
   productPage,
   searchingProducts,
   categories,
+  productsByCatName,
 });

@@ -1,15 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 class ProductCard extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: 'Jeans',
-      price: '2000',
-      imagePaths: ['images/jeans.jpg'],
+      name: "Jeans",
+      price: "2000",
+      imagePaths: ["images/jeans.jpg"],
       description:
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum veritatieos ducimus voluptate quo cupiditate recusandae quibusdam maxime asperioresdolorem!',
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illum veritatieos ducimus voluptate quo cupiditate recusandae quibusdam maxime asperioresdolorem!",
     };
   }
 
@@ -21,7 +22,7 @@ class ProductCard extends React.Component {
     return (
       <div className="col-3 product-card">
         <img
-          src={this.props.imagePaths[0]}
+          src={"/" + this.props.imagePaths[0]}
           alt=""
           className="product-card-img"
         />
@@ -42,5 +43,12 @@ class ProductCard extends React.Component {
     );
   }
 }
+
+ProductCard.propTypes = {
+  imagePaths: PropTypes.array.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+};
 
 export default ProductCard;

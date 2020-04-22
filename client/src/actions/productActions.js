@@ -1,60 +1,20 @@
-import axios from 'axios';
+import axios from "axios";
 import {
-  ADD_PRODUCT_NAME,
-  ADD_PRODUCT_CATEGORY,
-  ADD_PRODUCT_PRICE,
-  ADD_PRODUCT_QUANTITY,
-  ADD_PRODUCT_GENDER,
-  ADD_PRODUCT_SUCCESS,
   ADD_PRODUCT_IMAGE_PATHS,
   GET_TOP_PRODUCTS,
   GET_PRODUCT,
   SEARCH_PRODUCT,
   CLEAR_SEARCHING_RESULTS,
-} from '../types';
-// import { returnProductErrors, clearProductErrors } from "./errorActions";
-
-//Add new product action
-export const addProductName = (name) => (dispatch, getState) => {
-  return dispatch({
-    type: ADD_PRODUCT_NAME,
-    payload: name,
-  });
-};
-
-export const addProductCategory = (category) => (dispatch, getState) => {
-  return dispatch({
-    type: ADD_PRODUCT_CATEGORY,
-    payload: category,
-  });
-};
-export const addProductPrice = (price) => (dispatch, getState) => {
-  return dispatch({
-    type: ADD_PRODUCT_PRICE,
-    payload: price,
-  });
-};
-export const addProductQuantity = (quantity) => (dispatch, getState) => {
-  return dispatch({
-    type: ADD_PRODUCT_QUANTITY,
-    payload: quantity,
-  });
-};
-
-export const addProductGender = (gender) => (dispatch, getState) => {
-  return dispatch({
-    type: ADD_PRODUCT_GENDER,
-    payload: gender,
-  });
-};
+} from "../types";
+import { returnErrors, clearErrors } from "./errorActions";
 
 export const addProductImages = (images) => (dispatch, getState) => {
   const formData = new FormData();
   for (let key in images) {
-    formData.append('images', images[key]);
+    formData.append("images", images[key]);
     delete images[key];
   }
-  axios.post('/products/addNewImage', formData).then((res) => {
+  axios.post("/products/addNewImage", formData).then((res) => {
     if (res.status === 200) {
       return dispatch({
         type: ADD_PRODUCT_IMAGE_PATHS,
@@ -64,34 +24,21 @@ export const addProductImages = (images) => (dispatch, getState) => {
   });
 };
 
-export const addProduct = () => (dispatch, getState) => {
-  const product = {
-    name: getState().addedProduct.name,
-    price: getState().addedProduct.price,
-    category: getState().addedProduct.category,
-    gender: getState().addedProduct.gender,
-    imagePaths: getState().addedProduct.imagePaths,
-    quantity: getState().addedProduct.quantity,
-  };
-
+export const addProduct = (product) => (dispatch, getState) => {
   axios
-    .post('/products/addNewProduct', product)
+    .post("/products/addNewProduct", product)
     .then((res) => {
-      if (res.status === 200) {
-        // dispatch(clearProductErrors());
-        return dispatch({
-          type: ADD_PRODUCT_SUCCESS,
-          payload: res.data,
-        });
+      if (res.status !== 200) {
+        dispatch(returnErrors(res.data, res.status));
       } else {
-        // return dispatch(returnProductErrors(res.data));
+        return dispatch(clearErrors());
       }
     })
-    .catch((e) => console.log(e));
+    .catch((e) => dispatch(returnErrors("Something wents wrong", "404")));
 };
 
 export const getTopProducts = () => (dispatch) => {
-  axios.get('/home/getTopProducts').then((res) => {
+  axios.get("/home/getTopProducts").then((res) => {
     if (res.status === 200) {
       return dispatch({
         type: GET_TOP_PRODUCTS,

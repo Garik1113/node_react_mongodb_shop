@@ -1,42 +1,20 @@
 import {
-  ADD_PRODUCT_NAME,
-  ADD_PRODUCT_CATEGORY,
-  ADD_PRODUCT_PRICE,
-  ADD_PRODUCT_QUANTITY,
-  ADD_PRODUCT_GENDER,
-  ADD_PRODUCT_SUCCESS,
   ADD_PRODUCT_IMAGE_PATHS,
   GET_TOP_PRODUCTS,
   GET_PRODUCT,
   SEARCH_PRODUCT,
   CLEAR_SEARCHING_RESULTS,
+  GET_PRODUCTS_BY_CATEGORY,
 } from "../types";
 
-const addedProductinitialState = {
-  name: "",
-  price: "",
-  category: "",
-  gender: "",
-  quantity: "",
+const initialState = {
   imagePaths: "",
 };
 
-export const addedProduct = (state = addedProductinitialState, action) => {
+export const addedProduct = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_PRODUCT_NAME:
-      return { ...state, name: action.payload };
-    case ADD_PRODUCT_CATEGORY:
-      return { ...state, category: action.payload };
-    case ADD_PRODUCT_PRICE:
-      return { ...state, price: action.payload };
-    case ADD_PRODUCT_QUANTITY:
-      return { ...state, quantity: action.payload };
-    case ADD_PRODUCT_GENDER:
-      return { ...state, gender: action.payload };
     case ADD_PRODUCT_IMAGE_PATHS:
       return { ...state, imagePaths: action.payload };
-    case ADD_PRODUCT_SUCCESS:
-      return addedProductinitialState;
     default:
       return state;
   }
@@ -68,6 +46,15 @@ export const searchingProducts = (state = [], action) => {
     case SEARCH_PRODUCT:
       return action.payload;
     case CLEAR_SEARCHING_RESULTS:
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const productsByCatName = (state = [], action) => {
+  switch (action.type) {
+    case GET_PRODUCTS_BY_CATEGORY:
       return action.payload;
     default:
       return state;

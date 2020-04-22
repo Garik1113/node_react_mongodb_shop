@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { searchProducts, getProductPage } from '../../actions/productActions';
+import React from "react";
+import { Link } from "react-router-dom";
+import { searchProducts, getProductPage } from "../../actions/productActions";
 
-import { logOut } from '../../actions/userActions';
-import { connect } from 'react-redux';
+import { logOut } from "../../actions/userActions";
+import { connect } from "react-redux";
 
 class Navbar extends React.Component {
   render() {
@@ -74,7 +74,7 @@ class Navbar extends React.Component {
                     <li
                       className="searching-list-item"
                       onClick={() => {
-                        this.props.searchProducts('');
+                        this.props.searchProducts("");
                         getProductPage(e._id);
                       }}
                     >

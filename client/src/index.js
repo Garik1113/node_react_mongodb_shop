@@ -11,6 +11,7 @@ import AdminPage from "./components/adminPage/AdminPage";
 import SignUp from "./components/signupPage/SignUp";
 import Login from "./components/login/Login";
 import ProductPage from "./components/productPage/ProductPage";
+import Products from "./components/products/Products";
 
 ReactDOM.render(
   <Provider store={store}>
@@ -18,12 +19,13 @@ ReactDOM.render(
       <Route path="/">
         <Switch>
           <Route path="/" exact component={HomePage}></Route>
-          <Route path="/admin" component={AdminPage}></Route>
+          <Route path="/admin" exact component={AdminPage}></Route>
         </Switch>
       </Route>
-      <Route path="/users/create" component={SignUp} />
-      <Route path="/users/login" component={Login} />
+      <Route path="/users/create" exact component={SignUp} />
+      <Route path="/users/login" exact component={Login} />
       <Route path="/products/getPage/:id" exact component={ProductPage} />
+      <Route path="/products/getByCatName/:name" component={Products} />
     </Router>
   </Provider>,
   document.getElementById("root")

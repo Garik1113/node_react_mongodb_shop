@@ -78,8 +78,11 @@ body {
   text-align: center;
   font-size: 18px;
   color: #000000;
+  cursor: pointer;
 }
-
+.categories-item:hover {
+  color: #16a086;
+}
 /* Categories  END*/
 
 /* Trending Now */

@@ -1,6 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getCategories } from "../../actions/categoryActions";
+import {
+  getCategories,
+  getProductByCategory,
+} from "../../actions/categoryActions";
+import { Link } from "react-router-dom";
 
 class Categories extends React.Component {
   componentDidMount() {
@@ -13,9 +17,14 @@ class Categories extends React.Component {
           <ul className="d-flex align-items-center ">
             {this.props.categories.map((e, i) => {
               return (
-                <li key={i} className="categories-item">
-                  {e.name}
-                </li>
+                <Link key={i} to={`/products/getByCatName/${e.name}`}>
+                  <li
+                    className="categories-item"
+                    onClick={() => this.props.getProductByCategory(e.name)}
+                  >
+                    {e.name}
+                  </li>
+                </Link>
               );
             })}
           </ul>
@@ -29,4 +38,7 @@ const mapStateToProps = (state) => ({
   categories: state.categories,
 });
 
-export default connect(mapStateToProps, { getCategories })(Categories);
+export default connect(mapStateToProps, {
+  getCategories,
+  getProductByCategory,
+})(Categories);

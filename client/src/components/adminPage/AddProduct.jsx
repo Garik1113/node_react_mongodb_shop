@@ -1,49 +1,50 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  addProductName,
-  addProductCategory,
-  addProductPrice,
-  addProductGender,
-  addProductQuantity,
-  addProductImages,
-  addProduct,
-} from "../../actions/productActions";
+import { addProductImages, addProduct } from "../../actions/productActions";
 import { getCategories } from "../../actions/categoryActions";
 class AddProduct extends React.Component {
+  state = {
+    name: "",
+    price: "",
+    category: "",
+    gender: "",
+    quantity: "",
+    success: "",
+  };
   componentDidMount() {
     this.props.getCategories();
   }
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
   render() {
-    const { name, price, category, gender, quantity } = this.props.addedProduct;
+    const { name, price, gender, quantity, category, success } = this.state;
     const {
-      addProductName,
-      addProductCategory,
-      addProductPrice,
-      addProductGender,
-      addProductQuantity,
-      addProductImages,
-      addProduct,
-      errors,
-      productSuccess,
       categories,
+      addProduct,
+      addProductImages,
+      imagePaths,
+      errors,
     } = this.props;
     return (
       <div className="col-3 d-flex justify-content-center add-product-wrapper mt-4 m-2">
         <form className="addProduct-form">
           <h2 className="text-center">Add Product</h2>
-          <h4 className="alert-success">{productSuccess}</h4>
+          <h4 className="alert-success">{success}</h4>
           <input
             type="text"
             className="addProduct-input"
             placeholder="Name"
             value={name}
-            onChange={(e) => addProductName(e.target.value)}
+            name="name"
+            onChange={(e) => this.handleChange(e)}
           />
           <small className="error-msg">{errors.name && errors.name.msg}</small>
           <select
             className="select-css"
-            onChange={(e) => addProductCategory(e.target.value)}
+            name="category"
+            onChange={(e) => this.handleChange(e)}
           >
             <option>Choose category</option>;
             {categories &&
@@ -58,8 +59,9 @@ class AddProduct extends React.Component {
             type="text"
             className="addProduct-input"
             placeholder="Price"
+            name="price"
             value={price}
-            onChange={(e) => addProductPrice(e.target.value)}
+            onChange={(e) => this.handleChange(e)}
           />
           <small className="error-msg">
             {errors.price && errors.price.msg}
@@ -69,7 +71,8 @@ class AddProduct extends React.Component {
             className="addProduct-input"
             placeholder="Quantity"
             value={quantity}
-            onChange={(e) => addProductQuantity(e.target.value)}
+            name="quantity"
+            onChange={(e) => this.handleChange(e)}
           />
           <small className="error-msg">
             {errors.quantity && errors.quantity.msg}
@@ -79,7 +82,8 @@ class AddProduct extends React.Component {
             className="addProduct-input"
             placeholder="Gender"
             value={gender}
-            onChange={(e) => addProductGender(e.target.value)}
+            name="gender"
+            onChange={(e) => this.handleChange(e)}
           />
           <small className="error-msg">
             {errors.gender && errors.gender.msg}
@@ -100,7 +104,26 @@ class AddProduct extends React.Component {
           <button
             type="button"
             className="addProduct-btn"
-            onClick={() => addProduct()}
+            onClick={async () => {
+              await addProduct({
+                name,
+                category,
+                price,
+                gender,
+                quantity,
+                imagePaths,
+              });
+              if (Object.keys(errors).length === 0) {
+                this.setState({
+                  name: "",
+                  success: "Product has been successfuly adeed",
+                  price: "",
+                  category: "",
+                  quantity: "",
+                  gender: "",
+                });
+              }
+            }}
           >
             Add
           </button>
@@ -111,18 +134,12 @@ class AddProduct extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  addedProduct: state.addedProduct,
-  errors: state.errors.addedProductErrors,
-  productSuccess: state.errors.productSuccess,
   categories: state.categories,
+  imagePaths: state.addedProduct.imagePaths,
+  errors: state.errors.data,
 });
 
 const mapDispatchToProps = {
-  addProductName,
-  addProductCategory,
-  addProductPrice,
-  addProductGender,
-  addProductQuantity,
   addProductImages,
   addProduct,
   getCategories,

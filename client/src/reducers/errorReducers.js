@@ -1,8 +1,9 @@
-import { GET_ERRORS, CLEAR_ERRORS } from '../types';
+import { GET_ERRORS, CLEAR_ERRORS } from "../types";
 
 const initialState = {
   data: {},
-  status: '',
+  status: "",
+  hasErrors: false,
 };
 
 export const errors = (state = initialState, action) => {
@@ -12,13 +13,10 @@ export const errors = (state = initialState, action) => {
         ...state,
         data: action.payload.data,
         status: action.payload.status,
+        hasErrors: true,
       };
     case CLEAR_ERRORS:
-      return {
-        ...state,
-        data: {},
-        status: '',
-      };
+      return initialState;
     default:
       return state;
   }

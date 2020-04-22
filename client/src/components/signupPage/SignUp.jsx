@@ -1,27 +1,28 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router';
-import Navbar from '../homepage/Navbar';
-import { signupNewUser } from '../../actions/userActions';
+import React from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router";
+import Navbar from "../homepage/Navbar";
+import { signupNewUser } from "../../actions/userActions";
 class SignUp extends React.Component {
   state = {
-    name: '',
-    surname: '',
-    email: '',
-    age: '',
-    password: '',
-    confirmPassword: '',
+    name: "",
+    surname: "",
+    email: "",
+    age: "",
+    password: "",
+    confirmPassword: "",
   };
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
+  hello = () => {
+    this.props.history.push("/");
+  };
   render() {
     const { name, surname, age, email, password, confirmPassword } = this.state;
-    const { signupNewUser, errors, user } = this.props;
-    if (user.token) {
-      return <Redirect to="/" />;
-    }
+    const { signupNewUser, errors } = this.props;
 
+    console.log();
     return (
       <div className="container-fluid signup-wrapper vh-100">
         <Navbar />
@@ -101,9 +102,9 @@ class SignUp extends React.Component {
               <button
                 className="signup-btn"
                 type="submit"
-                onClick={(e) => {
+                onClick={async (e) => {
                   e.preventDefault();
-                  signupNewUser({
+                  await signupNewUser({
                     name,
                     surname,
                     age,
@@ -111,6 +112,9 @@ class SignUp extends React.Component {
                     password,
                     confirmPassword,
                   });
+                  if (errors.hasErrors) {
+                    this.props.history.push("/");
+                  }
                 }}
               >
                 Sign Up
@@ -123,7 +127,6 @@ class SignUp extends React.Component {
   }
 }
 const mapStateToProps = (state) => ({
-  user: state.user,
   errors: state.errors,
 });
 const mapDispatchToProps = {

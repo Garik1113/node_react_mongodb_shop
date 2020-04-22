@@ -1,22 +1,26 @@
-import React from 'react';
-import Navbar from './Navbar';
-import Categories from './Categories';
-import TrendingNow from '../trendingNow/TrendingNow';
-import ProductCard from '../productPage/ProductCard';
+import React from "react";
+import Navbar from "./Navbar";
+import Categories from "./Categories";
+import TrendingNow from "../trendingNow/TrendingNow";
+import ProductCard from "../productPage/ProductCard";
 
 import {
   getTopProducts,
   getProductPage,
   addProductViews,
-} from '../../actions/productActions';
-import { connect } from 'react-redux';
+  searchProducts,
+} from "../../actions/productActions";
+import { connect } from "react-redux";
 class HomePage extends React.Component {
   componentDidMount() {
     this.props.getTopProducts();
   }
   render() {
     return (
-      <div className="container-fluid">
+      <div
+        className="container-fluid"
+        onClick={() => this.props.searchProducts("")}
+      >
         <Navbar />
         <Categories />
         <TrendingNow />
@@ -53,4 +57,5 @@ export default connect(mapStateToProps, {
   getTopProducts,
   getProductPage,
   addProductViews,
+  searchProducts,
 })(HomePage);
