@@ -34,7 +34,7 @@ export const loginUser = (email, password) => (dispatch, getState) => {
       if (res.status == 200 && res.data.token) {
         dispatch({
           type: LOG_IN,
-          payload: res.data.token,
+          payload: res.data,
         });
       } else {
         dispatch(returnErrors(res.data.errors, res.status));
@@ -54,7 +54,7 @@ export const logOut = () => (dispatch, getState) => {
   });
 };
 
-const tokenConfig = (getState) => {
+export const tokenConfig = (getState) => {
   const config = {
     headers: {
       "Content-Type": "application/json",

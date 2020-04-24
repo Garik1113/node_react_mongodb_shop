@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router";
 import Navbar from "../homepage/Navbar";
 import { signupNewUser } from "../../actions/userActions";
 class SignUp extends React.Component {

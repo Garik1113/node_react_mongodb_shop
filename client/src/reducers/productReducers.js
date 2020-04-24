@@ -5,13 +5,15 @@ import {
   SEARCH_PRODUCT,
   CLEAR_SEARCHING_RESULTS,
   GET_PRODUCTS_BY_CATEGORY,
+  DELETE_PRODUCT_BY_ID,
+  CHANGE_PRODUCT_NAME,
 } from "../types";
 
-const initialState = {
+const adeedProductInitialState = {
   imagePaths: "",
 };
 
-export const addedProduct = (state = initialState, action) => {
+export const addedProduct = (state = adeedProductInitialState, action) => {
   switch (action.type) {
     case ADD_PRODUCT_IMAGE_PATHS:
       return { ...state, imagePaths: action.payload };
@@ -20,19 +22,26 @@ export const addedProduct = (state = initialState, action) => {
   }
 };
 
-const topProductsInitialState = [];
+const initialState = [];
 
-export const topProducts = (state = topProductsInitialState, action) => {
+export const topProducts = (state = initialState, action) => {
   switch (action.type) {
     case GET_TOP_PRODUCTS:
       return action.payload;
+    case CHANGE_PRODUCT_NAME:
+      // console.log("assda");
+      // const { id, name } = action.payload;
+      // state.find((e) => e._id === id).name = name;
+      // console.log(state);
+      return state;
+    case DELETE_PRODUCT_BY_ID:
+      return state.filter((e) => e._id !== action.payload);
     default:
       return state;
   }
 };
 
-const initialProductPageState = {};
-export const productPage = (state = initialProductPageState, action) => {
+export const productPage = (state = initialState, action) => {
   switch (action.type) {
     case GET_PRODUCT:
       return action.payload;

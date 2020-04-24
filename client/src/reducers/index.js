@@ -9,6 +9,7 @@ import {
 import { categories } from "./categoryReducers";
 import { errors } from "./errorReducers";
 import { user } from "./userReducers";
+import { shoppingCart } from "./shoppingCart";
 export default combineReducers({
   addedProduct,
   errors,
@@ -18,4 +19,5 @@ export default combineReducers({
   searchingProducts,
   categories,
   productsByCatName,
+  shoppingCart,
 });

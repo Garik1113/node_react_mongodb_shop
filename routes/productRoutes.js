@@ -14,5 +14,7 @@ ProductRouter.get("/getPage/:id", ProductController.getPage);
 ProductRouter.get("/addVeiws/:id", ProductController.addViews);
 ProductRouter.get("/search/:name", ProductController.searchProducts);
 ProductRouter.get("/getProducts/:catName", ProductController.getProducts);
+ProductRouter.use("/delete/:id", ProductController.deleteProduct);
+ProductRouter.post("/change", ProductController.changeProduct);
 
 module.exports = ProductRouter;

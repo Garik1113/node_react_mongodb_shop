@@ -1,6 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import {
+  addProductToCart,
+  deleteProductById,
+} from "../../actions/productActions";
+import { connect } from "react-redux";
 
 class ProductCard extends React.Component {
   constructor() {
@@ -39,6 +44,30 @@ class ProductCard extends React.Component {
           <span className="product-card-price">{this.props.price}$</span>
         </div>
         <p className="product-card-description">{this.state.description}</p>
+        <div className="d-flex align-items-center">
+          <button
+            className="btn btn-success"
+            onClick={() => this.props.addProductToCart(this.props.id)}
+          >
+            Add to cart
+          </button>
+          {this.props.isAdmin && (
+            <div>
+              <button
+                className="btn btn-danger ml-2"
+                onClick={() => this.props.deleteProductById(this.props.id)}
+              >
+                Delete
+              </button>
+              <button
+                className="btn btn-warning"
+                onClick={() => this.props.showModal()}
+              >
+                Change
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -49,6 +78,13 @@ ProductCard.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };
+const mapStateToProps = (state) => ({
+  shoppingCart: state.shoppingCart,
+});
 
-export default ProductCard;
+export default connect(mapStateToProps, {
+  addProductToCart,
+  deleteProductById,
+})(ProductCard);

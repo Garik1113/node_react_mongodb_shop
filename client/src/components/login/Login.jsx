@@ -23,6 +23,11 @@ class Login extends React.Component {
             placeholder="Email"
             className="signup-input "
             onChange={(e) => this.setState({ email: e.target.value })}
+            onKeyPress={(e) => {
+              if (e.charCode === 13) {
+                return loginUser(this.state.email, this.state.password);
+              }
+            }}
           />
           <small className="error-msg">
             {errors.data.email && errors.data.email.msg}
@@ -30,6 +35,11 @@ class Login extends React.Component {
           <input
             type="password"
             placeholder="Password"
+            onKeyPress={(e) => {
+              if (e.charCode === 13) {
+                return loginUser(this.state.email, this.state.password);
+              }
+            }}
             className="signup-input"
             onChange={(e) => this.setState({ password: e.target.value })}
           />

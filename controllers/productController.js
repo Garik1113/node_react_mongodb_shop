@@ -62,6 +62,18 @@ class ProductController {
       res.status(200).send(data);
     });
   }
+  deleteProduct(req, res) {
+    const id = req.params.id;
+    Product.findByIdAndDelete({ _id: id }, (err, data) => {
+      if (err) {
+        return res.status(500).send({ error: "Something wents wrong" });
+      }
+      return res.end();
+    });
+  }
+  changeProduct(req, res) {
+    const { id } = req.body;
+  }
 }
 
 module.exports = new ProductController();
