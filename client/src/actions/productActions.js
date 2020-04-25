@@ -10,6 +10,8 @@ import {
   CHANGE_PRODUCT_CATEGORY,
   CHANGE_PRODUCT_PRICE,
   CHANGE_PRODUCT_QUANTITY,
+  ADD_PRODUCT_TO_SHOPPING_CART,
+  GET_CART_PRODUCTS,
 } from "../types";
 import { returnErrors, clearErrors } from "./errorActions";
 import { tokenConfig } from "./userActions";
@@ -93,9 +95,21 @@ export const searchProducts = (name) => (dispatch) => {
 };
 
 //add product in shopping cart
-export const addProductToCart = (id) => (dispatch, getState) => {
-  console.log(getState().user);
-  axios.post("/cart/add", { id }).then((res) => console.log(res));
+export const addProductToCart = (product_id) => (dispatch, getState) => {
+  if (!getState().user.isAuthorizated) {
+    return dispatch(returnErrors("Not Authorizated", 203));
+  } else {
+    dispatch(clearErrors());
+    const user_id = getState().user.user._id;
+    axios.post("/cart/add", { user_id, product_id }).then((res) => {
+      if (res.status === 200) {
+        return dispatch({
+          type: ADD_PRODUCT_TO_SHOPPING_CART,
+          payload: res.data,
+        });
+      }
+    });
+  }
 };
 
 export const deleteProductById = (id) => (dispatch, getState) => {
@@ -109,15 +123,34 @@ export const deleteProductById = (id) => (dispatch, getState) => {
   });
 };
 
-//Change product properties
+//get cart component
+export const getCartProducts = () => (dispatch, getState) => {
+  console.log(tokenConfig(getState));
+  axios
+    .post("/cart/getCartProducts", {}, tokenConfig(getState))
+    .then((res) => {
+      if (res.status == 401 || res.status == 403) {
+        dispatch(returnErrors(res.data, res.status));
+      }
+      dispatch({
+        type: GET_CART_PRODUCTS,
+        payload: res.data,
+      });
+    })
+    .catch((e) => {
+      return dispatch(returnErrors(e.message, "401"));
+    });
+};
 
-export const changeProductName = (name, id) => (dispatch, getState) => {
-  console.log("asf");
-  dispatch({
+//Change product properties
+export const changeProductName = (name, id) => (dispatch, getStae) => {
+  console.log(name);
+  return dispatch({
     type: CHANGE_PRODUCT_NAME,
     payload: { name, id },
   });
 };
+
 export const changeProductCategory = (category, id) => (dispatch, getState) => {
   dispatch({
     type: CHANGE_PRODUCT_CATEGORY,
@@ -137,7 +170,7 @@ export const changeProductQuantity = (quantity, id) => (dispatch, getState) => {
   });
 };
 export const saveProductChanges = (id) => (dispatch, getState) => {
-  axios.post(`/products/change`, { id }, tokenConfig(getState)).then((res) => {
-    console.log(res);
-  });
+  axios
+    .post(`/products/change`, { id }, tokenConfig(getState))
+    .then((res) => {});
 };

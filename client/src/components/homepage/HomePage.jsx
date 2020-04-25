@@ -19,21 +19,28 @@ class HomePage extends React.Component {
     show: false,
   };
   componentDidMount() {
-    this.props.getTopProducts();
+    try {
+      this.props.getTopProducts();
+    } catch (error) {
+      console.log(error);
+    }
   }
   render() {
     return (
       <div
-        className="container-fluid"
+        className='container-fluid'
         onClick={() => this.props.searchProducts("")}
       >
         <Navbar />
         <Categories />
         <TrendingNow />
-        <div className="col-10 d-flex flex-wrap justify-content-center offset-1">
-          {/* <div className="col-10">
-            <h1 className="text-center">Top Products</h1>
-          </div> */}
+        {this.props.errors.hasErrors && (
+          <h4 className='text-center'>{this.props.errors.data}</h4>
+        )}
+        <div className='col-10 d-flex flex-wrap justify-content-center offset-1'>
+          <div className='col-10'>
+            <h1 className='text-center'>Top Products</h1>
+          </div>
 
           {this.props.topProducts.map((e, i) => {
             return (
@@ -49,47 +56,60 @@ class HomePage extends React.Component {
                   showModal={() => this.setState({ show: true })}
                 />
 
-                <Modal show={this.state.show}>
+                <Modal
+                  show={this.state.show}
+                  onHide={() => this.setState({ show: false })}
+                >
                   <Modal.Header closeButton>
                     <Modal.Title>Change product properties</Modal.Title>
                   </Modal.Header>
                   <Modal.Body>
                     <input
-                      type="text"
-                      // value={e.name}
-
-                      onChange={(n) => changeProductName(n.target.name, e._id)}
-                      className="form-control mb-2"
-                      placeholder="Name"
+                      type='text'
+                      value={e.name}
+                      onChange={() =>
+                        changeProductName(
+                          "new Name",
+                          "5ea29bceb216453310bd864b"
+                        )
+                      }
+                      className='form-control mb-2'
+                      placeholder='Name'
                     />
                     <input
-                      type="text"
+                      type='text'
                       // value={e.category}
-                      className="form-control  mb-2"
-                      placeholder="Category"
+                      className='form-control  mb-2'
+                      placeholder='Category'
                     />
                     <input
-                      type="text"
+                      type='text'
                       // value={e.price}
-                      className="form-control  mb-2"
-                      placeholder="Price"
+                      className='form-control  mb-2'
+                      placeholder='Price'
                     />
                     <input
-                      type="text"
+                      type='text'
                       // value={e.quantity}
-                      className="form-control mb-2"
-                      placeholder="Quantity"
+                      className='form-control mb-2'
+                      placeholder='Quantity'
                     />
                   </Modal.Body>
                   <Modal.Footer>
                     <Button
-                      variant="secondary"
-                      onClick={() => this.setState({ show: false })}
+                      variant='secondary'
+                      // onClick={() => this.setState({ show: false })}
+                      onClick={() =>
+                        this.props.changeProductName(
+                          "name",
+                          "5ea29bceb216453310bd864b"
+                        )
+                      }
                     >
                       Close
                     </Button>
                     <Button
-                      variant="primary"
+                      variant='primary'
                       onClick={() => this.props.saveProductChanges()}
                     >
                       Save Changes
@@ -108,6 +128,7 @@ class HomePage extends React.Component {
 const mapStateToProps = (state) => ({
   topProducts: state.topProducts,
   user: state.user.user,
+  errors: state.errors,
 });
 
 export default connect(mapStateToProps, {

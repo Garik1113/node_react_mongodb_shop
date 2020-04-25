@@ -12,20 +12,22 @@ import SignUp from "./components/signupPage/SignUp";
 import Login from "./components/login/Login";
 import ProductPage from "./components/productPage/ProductPage";
 import Products from "./components/products/Products";
+import ShoppingCart from "./components/shoppingCart/ShoppingCart";
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Route path="/">
+      <Route path='/'>
         <Switch>
-          <Route path="/" exact component={HomePage}></Route>
-          <Route path="/admin" exact component={AdminPage}></Route>
+          <Route path='/' exact component={HomePage}></Route>
+          <Route path='/admin' exact component={AdminPage}></Route>
         </Switch>
       </Route>
-      <Route path="/users/create" exact component={SignUp} />
-      <Route path="/users/login" exact component={Login} />
-      <Route path="/products/getPage/:id" exact component={ProductPage} />
-      <Route path="/products/getByCatName/:name" component={Products} />
+      <Route path='/users/create' exact component={SignUp} />
+      <Route path='/users/login' exact component={Login} />
+      <Route path='/products/getPage/:id' exact component={ProductPage} />
+      <Route path='/products/getByCatName/:name' component={Products} />
+      <Route path='/cart' component={ShoppingCart} />
     </Router>
   </Provider>,
   document.getElementById("root")

@@ -29,10 +29,9 @@ export const topProducts = (state = initialState, action) => {
     case GET_TOP_PRODUCTS:
       return action.payload;
     case CHANGE_PRODUCT_NAME:
-      // console.log("assda");
-      // const { id, name } = action.payload;
-      // state.find((e) => e._id === id).name = name;
-      // console.log(state);
+      console.log("assda");
+      const { id, name } = action.payload;
+      state = state.map((e) => (e._id === id ? { ...e, name: name } : e));
       return state;
     case DELETE_PRODUCT_BY_ID:
       return state.filter((e) => e._id !== action.payload);

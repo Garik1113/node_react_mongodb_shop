@@ -18,12 +18,11 @@ class Products extends React.Component {
   }
   render() {
     const { products } = this.props;
-
     return (
-      <div className="container-fluid">
+      <div className='container-fluid'>
         <Navbar />
-        <h1 className="text-center mt-2 mb-2">{this.state.title}</h1>
-        <div className="container d-flex flex-wrap justify-content-center">
+        <h1 className='text-center mt-2 mb-2'>{this.state.title}</h1>
+        <div className='container d-flex flex-wrap justify-content-center'>
           {products.map((e, i) => {
             return (
               <ProductCard
@@ -34,6 +33,7 @@ class Products extends React.Component {
                 imagePaths={e.imagePaths}
                 addProductViews={this.props.addProductViews}
                 getProductPage={this.props.getProductPage}
+                isAdmin={this.props.user.isAdmin || false}
               />
             );
           })}
@@ -44,6 +44,7 @@ class Products extends React.Component {
 }
 const mapStateToProps = (state) => ({
   products: state.productsByCatName,
+  user: state.user.user,
 });
 
 export default connect(mapStateToProps, {

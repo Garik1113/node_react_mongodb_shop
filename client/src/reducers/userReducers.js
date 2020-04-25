@@ -29,7 +29,7 @@ export const user = (state = initialState, action) => {
       return { ...state, user: "", token: "", isAuthorizated: false };
     case LOG_OUT:
       localStorage.removeItem("jwt_token");
-      return { ...state, isAuthorizated: false };
+      return { ...state, isAuthorizated: false, token: "", user: "" };
     default:
       return state;
   }

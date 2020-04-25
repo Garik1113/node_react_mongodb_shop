@@ -1,30 +1,28 @@
-import React from 'react';
-import InfiniteCarousel from 'react-leaf-carousel';
+import React from "react";
+import InfiniteCarousel from "react-leaf-carousel";
 
 class TrendingNow extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      trendingProducts: [
-        { name: 'jeans', image: 'images/jeans.jpg' },
-        { name: 'jeans', image: 'images/jeans.jpg' },
-        { name: 'jeans', image: 'images/jeans.jpg' },
-        { name: 'jeans', image: 'images/jeans.jpg' },
-        { name: 'jeans', image: 'images/jeans.jpg' },
-      ],
-    };
-  }
+  state = {
+    trendingProducts: [
+      { name: "jeans", image: "images/jeans.jpg" },
+      { name: "jeans", image: "images/jeans.jpg" },
+      { name: "jeans", image: "images/jeans.jpg" },
+      { name: "jeans", image: "images/jeans.jpg" },
+      { name: "jeans", image: "images/jeans.jpg" },
+    ],
+  };
+
   render() {
     return (
-      <div className="container">
-        <div className="title-wrapper d-flex align-items-center justify-content-center">
-          <div className="title-line"></div>
-          <div className="title">
-            <h2 className="title-text">Trending Now</h2>
+      <div className='container'>
+        <div className='title-wrapper d-flex align-items-center justify-content-center'>
+          <div className='title-line'></div>
+          <div className='title'>
+            <h2 className='title-text'>Trending Now</h2>
           </div>
-          <div className="title-line"></div>
+          <div className='title-line'></div>
         </div>
-        <div className="carousel">
+        <div className='carousel'>
           <InfiniteCarousel
             breakpoints={[
               {
@@ -53,8 +51,8 @@ class TrendingNow extends React.Component {
             {this.state.trendingProducts.map((e, i) => {
               return (
                 <div key={i}>
-                  <img src={e.image} alt="" />
-                  <p className="carousel-item-name">{e.name}</p>
+                  <img src={e.image} alt='' />
+                  <p className='carousel-item-name'>{e.name}</p>
                 </div>
               );
             })}
