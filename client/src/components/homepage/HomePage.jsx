@@ -25,6 +25,9 @@ class HomePage extends React.Component {
       console.log(error);
     }
   }
+  componentWillUnmount() {
+    return null;
+  }
   render() {
     return (
       <div
@@ -34,9 +37,7 @@ class HomePage extends React.Component {
         <Navbar />
         <Categories />
         <TrendingNow />
-        {this.props.errors.hasErrors && (
-          <h4 className='text-center'>{this.props.errors.data}</h4>
-        )}
+
         <div className='col-10 d-flex flex-wrap justify-content-center offset-1'>
           <div className='col-10'>
             <h1 className='text-center'>Top Products</h1>
@@ -52,7 +53,9 @@ class HomePage extends React.Component {
                   addProductViews={() => this.props.addProductViews(e._id)}
                   imagePaths={e.imagePaths}
                   getProductPage={() => this.props.getProductPage(e._id)}
-                  isAdmin={this.props.user.isAdmin || false}
+                  isAdmin={
+                    (this.props.user && this.props.user.isAdmin) || false
+                  }
                   showModal={() => this.setState({ show: true })}
                 />
 

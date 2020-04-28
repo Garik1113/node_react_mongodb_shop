@@ -34,7 +34,7 @@ export const loginUser = (email, password) => (dispatch, getState) => {
       if (res.status == 200 && res.data.token) {
         dispatch({
           type: LOG_IN,
-          payload: res.data,
+          payload: res.data.token,
         });
       } else {
         dispatch(returnErrors(res.data.errors, res.status));
@@ -62,6 +62,7 @@ export const tokenConfig = (getState) => {
   };
 
   const token = getState().user.token;
+
   if (token) {
     config.headers["Authorization"] = token;
   }

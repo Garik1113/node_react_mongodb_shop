@@ -11,6 +11,14 @@ const cart = new Schema({
         type: String,
         required: true,
       },
+      price: {
+        type: Number,
+        required: true,
+      },
+      total_count: {
+        type: Number,
+        required: true,
+      },
       quantity: {
         type: Number,
         default: 1,

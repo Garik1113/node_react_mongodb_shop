@@ -12,6 +12,7 @@ import {
   CHANGE_PRODUCT_QUANTITY,
   ADD_PRODUCT_TO_SHOPPING_CART,
   GET_CART_PRODUCTS,
+  INCREMENT_CART_PRODUCT_QUANTITY,
 } from "../types";
 import { returnErrors, clearErrors } from "./errorActions";
 import { tokenConfig } from "./userActions";
@@ -100,15 +101,21 @@ export const addProductToCart = (product_id) => (dispatch, getState) => {
     return dispatch(returnErrors("Not Authorizated", 203));
   } else {
     dispatch(clearErrors());
-    const user_id = getState().user.user._id;
-    axios.post("/cart/add", { user_id, product_id }).then((res) => {
-      if (res.status === 200) {
-        return dispatch({
-          type: ADD_PRODUCT_TO_SHOPPING_CART,
-          payload: res.data,
-        });
-      }
-    });
+    console.log(tokenConfig(getState));
+    axios
+      .post("/cart/add", { product_id }, tokenConfig(getState))
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          // return dispatch({
+          //   type: ADD_PRODUCT_TO_SHOPPING_CART,
+          //   payload: res.data,
+          // });
+          return;
+        } else {
+          dispatch(returnErrors("Something went wrong", res.status));
+        }
+      });
   }
 };
 
@@ -125,12 +132,11 @@ export const deleteProductById = (id) => (dispatch, getState) => {
 
 //get cart component
 export const getCartProducts = () => (dispatch, getState) => {
-  console.log(tokenConfig(getState));
   axios
     .post("/cart/getCartProducts", {}, tokenConfig(getState))
     .then((res) => {
       if (res.status == 401 || res.status == 403) {
-        dispatch(returnErrors(res.data, res.status));
+        return dispatch(returnErrors(res.data, res.status));
       }
       dispatch({
         type: GET_CART_PRODUCTS,
@@ -139,6 +145,29 @@ export const getCartProducts = () => (dispatch, getState) => {
     })
     .catch((e) => {
       return dispatch(returnErrors(e.message, "401"));
+    });
+};
+
+export const incrementProductQuantity = (product_id, num, cart_id) => (
+  dispatch,
+  getState
+) => {
+  axios
+    .post("/cart/increment", { product_id, num }, tokenConfig(getState))
+    .then((res) => {
+      if (res.status !== 200) {
+        return dispatch(returnErrors("Something wents wrong", res.status));
+      } else {
+        const user_id = getState().user.user.user_id;
+
+        return dispatch({
+          type: INCREMENT_CART_PRODUCT_QUANTITY,
+          payload: { num, user_id, product_id, cart_id },
+        });
+      }
+    })
+    .catch((e) => {
+      return dispatch(returnErrors("Something wents wrong", "401"));
     });
 };
 
