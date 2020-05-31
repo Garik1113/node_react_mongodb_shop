@@ -9,6 +9,7 @@ class ShopingCart extends React.Component {
     this.props.getCartProducts();
   }
   render() {
+    console.log(this.props.cart);
     if (!this.props.user.isAuthorizated) {
       return <Redirect to='/' />;
     }
@@ -22,12 +23,12 @@ class ShopingCart extends React.Component {
             return (
               <CartProduct
                 key={i}
-                name={e.pro.name}
-                price={e.pro.price}
+                name={e.pro?.name}
+                price={e.pro?.price}
                 quantity={e.cart.quantity}
                 cart_id={e.cart._id}
-                imgSrc={e.pro.imagePaths[0]}
-                id={e.pro._id}
+                imgSrc={e.pro?.imagePaths[0]}
+                id={e.pro?._id}
               />
             );
           })}

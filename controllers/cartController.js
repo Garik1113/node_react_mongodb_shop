@@ -43,12 +43,16 @@ class CartController {
         user_id: req.user._id,
       });
       const products = [];
+      console.log(cartProductsIds[0].products);
       if (cartProductsIds[0]) {
         const cartProducts = cartProductsIds[0].products;
         for (let i = 0; i < cartProducts.length; i++) {
           const pro = await Products.findById(cartProducts[i].product_id);
-          const cart = cartProductsIds[0].products[i];
-          products.push({ pro, cart });
+          console.log(pro);
+          if (pro) {
+            const cart = cartProductsIds[0].products[i];
+            products.push({ pro, cart });
+          }
         }
       }
 
