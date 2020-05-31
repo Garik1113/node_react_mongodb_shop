@@ -41,7 +41,7 @@ class Navbar extends React.Component {
             </div>
             <div className='col-4 d-flex justify-content-center'>
               <div className='signup-wrapper'>
-                {this.props.user.isAuthorizated && (
+                {this.props.user && (
                   <div>
                     <Link
                       to='/'
@@ -55,7 +55,7 @@ class Navbar extends React.Component {
                     </Link>
                   </div>
                 )}
-                {!this.props.user.isAuthorizated && (
+                {!this.props.user && (
                   <div>
                     <Link to='/users/login' className='signup-link'>
                       Sign in
@@ -78,10 +78,11 @@ class Navbar extends React.Component {
                   <Link to={`/products/getPage/${e._id}`} key={i}>
                     <li
                       className='searching-list-item'
-                      onClick={() => {
-                        this.props.searchProducts("");
-                        getProductPage(e._id);
-                      }}
+                      // onClick={() => {
+                      //   console.log("GEEET", e._id);
+                      //   getProductPage(e._id);
+                      //   // this.props.searchProducts("");
+                      // }}
                     >
                       {e.name}
                     </li>
@@ -98,7 +99,7 @@ class Navbar extends React.Component {
 
 const mapStateToProps = (state) => ({
   searchingProducts: state.searchingProducts,
-  user: state.user,
+  user: state.user.user,
 });
 
 export default connect(mapStateToProps, {

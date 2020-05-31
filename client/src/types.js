@@ -12,6 +12,7 @@ export const LOG_OUT = "LOG_OUT";
 export const LOG_OUT_FAILED = "LOG_OUT_FAILED";
 export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
+export const GET_USER_DATA = "GET_USER_DATA";
 
 //Homepage
 export const GET_TOP_PRODUCTS = "GET_TOP_PRODUCTS";

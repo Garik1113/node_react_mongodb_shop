@@ -54,6 +54,7 @@ app.use("/users", UserRouter);
 app.use("/products", ProductRouter);
 app.use("/categories", CategoryRouter);
 app.use("/cart", CartRouter);
+
 //db config and start app
 const URL = process.env.DB_URI;
 const start = async () => {

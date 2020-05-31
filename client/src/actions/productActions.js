@@ -60,6 +60,7 @@ export const getTopProducts = () => (dispatch) => {
 //Get Product page
 
 export const getProductPage = (id) => (dispatch) => {
+  console.log("GET PRODUCT PAGE");
   axios.get(`/products/getPage/${id}`).then((res) => {
     if (res.status === 200) {
       return dispatch({
@@ -133,7 +134,7 @@ export const deleteProductById = (id) => (dispatch, getState) => {
 //get cart component
 export const getCartProducts = () => (dispatch, getState) => {
   axios
-    .post("/cart/getCartProducts", {}, tokenConfig(getState))
+    .get("/cart/getCartProducts", tokenConfig(getState))
     .then((res) => {
       if (res.status == 401 || res.status == 403) {
         return dispatch(returnErrors(res.data, res.status));

@@ -1,7 +1,13 @@
 import axios from "axios";
 
 import { returnErrors, clearErrors } from "./errorActions";
-import { SIGN_UP_FAILED, SIGN_UP, LOG_IN, LOG_OUT } from "../types";
+import {
+  SIGN_UP_FAILED,
+  SIGN_UP,
+  LOG_IN,
+  LOG_OUT,
+  GET_USER_DATA,
+} from "../types";
 
 //Signup new user
 export const signupNewUser = (user) => (dispatch, getState) => {
@@ -44,7 +50,6 @@ export const loginUser = (email, password) => (dispatch, getState) => {
 export const logOut = () => (dispatch, getState) => {
   console.log("logout");
   axios.post("/users/logout", tokenConfig(getState)).then((res) => {
-    console.log(res);
     if (res.status !== 200) {
       return dispatch(returnErrors(res.data, res.status));
     }
@@ -54,17 +59,26 @@ export const logOut = () => (dispatch, getState) => {
   });
 };
 
+export const getUserData = () => (dispatch, getState) => {
+  axios
+    .get("/users/getData", tokenConfig(getState))
+    .then((res) => {
+      if (res.status === 200) {
+        return dispatch({ type: GET_USER_DATA, payload: res.data });
+      }
+    })
+    .catch((e) => dispatch(returnErrors("Something wents wrong", "404")));
+};
+
 export const tokenConfig = (getState) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
     },
   };
-
-  const token = getState().user.token;
-
+  const token = getState().user.token || localStorage.getItem("jwt_token");
   if (token) {
-    config.headers["Authorization"] = token;
+    config.headers["Authorization"] = `Bearer ${token}`;
   }
 
   return config;

@@ -11,9 +11,7 @@ function generateToken(user) {
     email: user.email,
     _id: user._id.toString(),
   };
-  return (token = jwt.sign(newUser, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "15s",
-  }));
+  return (token = jwt.sign(newUser, process.env.ACCESS_TOKEN_SECRET));
 }
 
 class UserController {
@@ -38,7 +36,6 @@ class UserController {
       password: hashedPassword,
     };
     await User.create(user, (err, data) => {
-      // res.header.authorization = ;
       return res.status(200).send(generateToken(data));
     });
   }
@@ -75,6 +72,10 @@ class UserController {
   logOut(req, res, next) {
     req.logout();
     res.end();
+  }
+  async getData(req, res) {
+    const userData = await User.findById(req.user._id);
+    res.status(200).send(userData);
   }
 }
 

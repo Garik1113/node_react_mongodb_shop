@@ -4,6 +4,7 @@ import {
   LOG_IN,
   LOG_IN_FAILED,
   LOG_OUT,
+  GET_USER_DATA,
 } from "../types";
 const initialState = {
   user: "",
@@ -21,6 +22,8 @@ export const user = (state = initialState, action) => {
         token: action.payload,
         isAuthorizated: true,
       };
+    case GET_USER_DATA:
+      return { ...state, user: action.payload, isAuthorizated: true };
     case SIGN_UP_FAILED:
     case LOG_IN_FAILED:
       localStorage.removeItem("jwt_token");

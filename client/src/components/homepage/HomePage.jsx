@@ -14,11 +14,13 @@ import {
   saveProductChanges,
 } from "../../actions/productActions";
 import { connect } from "react-redux";
+import { getUserData } from "../../actions/userActions";
 class HomePage extends React.Component {
   state = {
     show: false,
   };
   componentDidMount() {
+    this.props.getUserData();
     try {
       this.props.getTopProducts();
     } catch (error) {
@@ -28,6 +30,7 @@ class HomePage extends React.Component {
   componentWillUnmount() {
     return null;
   }
+
   render() {
     return (
       <div
@@ -141,4 +144,5 @@ export default connect(mapStateToProps, {
   searchProducts,
   changeProductName,
   saveProductChanges,
+  getUserData,
 })(HomePage);
